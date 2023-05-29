@@ -1,35 +1,37 @@
-package com.example.cinematicketingsystem.entities;
+package com.example.cinematicketingsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.core.annotation.Order;
 
 import java.util.Objects;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Entity
-@Table(name = "seats")
-public class Seat {
-
+@Table(name = "available_seats")
+@Order(5)
+public class ShowtimeSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int row;
-    private int column;
-    private float price;
+    private boolean isAvailable;
     @ManyToOne
-    @JoinColumn(name = "cinemaRoomId") //fetch?
-    private CinemaRoom cinemaRoom;
+    @JoinColumn(name = "seat_id") //fetch?
+    private Seat seat;
+    @ManyToOne
+    @JoinColumn(name = "showtime_id") //fetch?
+     private Showtime showtime;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Seat seat = (Seat) o;
-        return id.equals(seat.id);
+        ShowtimeSeat that = (ShowtimeSeat) o;
+        return id.equals(that.id);
     }
 
     @Override
