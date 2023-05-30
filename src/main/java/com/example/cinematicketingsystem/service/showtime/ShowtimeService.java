@@ -5,5 +5,6 @@ import com.example.cinematicketingsystem.entity.Showtime;
 import java.util.List;
 
 public interface ShowtimeService {
-    public List<Showtime> findShowtimesByMovieId(Long movieId);
+    List<Showtime> findShowtimesByMovieId(Long movieId);
+    Showtime findById(Long id);
 }

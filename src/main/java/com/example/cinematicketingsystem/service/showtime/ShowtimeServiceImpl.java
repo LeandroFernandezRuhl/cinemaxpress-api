@@ -33,6 +33,19 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         return showtimes.get();
     }
 
+    public Showtime findById(Long id) {
+        log.info("Finding showtime with ID: {}", id);
+        Optional<Showtime> optional = showtimeRepository.findById(id);
+
+        if (optional.isEmpty()) {
+            String errorMessage = "No showtime found";
+            log.error(errorMessage);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+        }
+
+        return optional.get();
+    }
+
     //Delete, Save/Update. ?
 
 }
