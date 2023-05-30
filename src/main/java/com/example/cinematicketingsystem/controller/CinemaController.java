@@ -1,14 +1,18 @@
 package com.example.cinematicketingsystem.controller;
 
+import com.example.cinematicketingsystem.dto.SeatDTO;
 import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.entity.ShowtimeSeat;
 import com.example.cinematicketingsystem.service.showtime.ShowtimeService;
-import com.example.cinematicketingsystem.service.showtimeSeat.ShowtimeSeatsService;
+import com.example.cinematicketingsystem.service.showtimeSeat.ShowtimeSeatService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.catalina.mapper.Mapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -16,24 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cinema")
 public class CinemaController {
     private final ShowtimeService showtimeService;
-    private final ShowtimeSeatsService showtimeSeatsService;
-/*
-    @GetMapping("/{movieId}/showtimes/{showtimeId}/availableSeats")
-    public ResponseEntity<AvailableSeatsDTO> getAvailableSeats(@PathVariable Long movieId, @PathVariable Long showtimeId) {
-        // Check if the movie exists
-        if (!movieService.existsById(movieId)) {
-            throw new NotFoundException("Movie not found");
-        }
+    private final ShowtimeSeatService showtimeSeatService;
 
-        // Retrieve the showtime by ID
-        Showtime showtime = showtimeService.findById(showtimeId);
-
-        // Check if the showtime exists
-        if (showtime == null) {
-            throw new NotFoundException("Showtime not found");
-        }
+    @GetMapping("/availableSeats")
+    public ResponseEntity<List<SeatDTO>> getAvailableSeats(
+            @RequestParam("showtimeId") Long showtimeId) {
 
         // Retrieve the available seats for the showtime
-        return showtimeSeatsService.getAvailableSeatsByShowtimeId(showtimeId);
-    } */
+        List<SeatDTO> list = showtimeSeatService.findAvailableSeats(showtimeId);
+
+        return ResponseEntity.ok(list);
+    }
 }
