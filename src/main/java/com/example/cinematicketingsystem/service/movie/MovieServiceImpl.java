@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,15 +25,16 @@ public class MovieServiceImpl implements MovieService {
 
     public List<Movie> findAllMovies() {
         log.info("Finding all movies");
-        Optional<List<Movie>> movies = movieRepository.findAllMovies();
+        List<Movie> movies = new ArrayList<>();
+        movieRepository.findAll().iterator().forEachRemaining(movies::add);
 
-        if (movies.isEmpty()) {
+        if (movies.size() == 0) {
             String errorMessage = "No movies found in the database";
             log.error(errorMessage);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
         }
 
-        return movies.get();
+        return movies;
     }
 
     //Delete, Save/Update, ?

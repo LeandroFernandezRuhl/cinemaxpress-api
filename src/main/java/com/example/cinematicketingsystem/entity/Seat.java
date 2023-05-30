@@ -23,7 +23,7 @@ public class Seat {
     private int row;
     @Column(name = "seat_column")
     private int column;
-    private Double price;
+    private double price;
     @ManyToOne
     @JoinColumn(name = "cinema_room_id") //fetch?
     private CinemaRoom cinemaRoom;

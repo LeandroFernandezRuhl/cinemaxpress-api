@@ -18,7 +18,7 @@ public class ShowtimeSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean isAvailable;
+    private boolean available;
     @ManyToOne
     @JoinColumn(name = "seat_id") //fetch?
     private Seat seat;
