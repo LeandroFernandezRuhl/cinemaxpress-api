@@ -20,6 +20,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         this.showtimeRepository = showtimeRepository;
     }
 
+    @Override
     public List<Showtime> findShowtimesByMovieId(Long movieId) {
         log.info("Finding all showtimes with movie ID: {}", movieId);
         Optional<List<Showtime>> showtimes = showtimeRepository.findAllByMovieId(movieId);
@@ -33,6 +34,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         return showtimes.get();
     }
 
+    @Override
     public Showtime findById(Long id) {
         log.info("Finding showtime with ID: {}", id);
         Optional<Showtime> optional = showtimeRepository.findById(id);
