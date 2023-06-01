@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ShowtimeSeatService {
     public List<SeatDTO> findAvailableSeats(Long showtimeId);
+    public Seat purchaseSeat(Long seatId);
 }

@@ -24,15 +24,34 @@ public class ShowtimeSeatServiceImpl implements ShowtimeSeatService {
     ShowtimeSeatRepository showtimeSeatRepository;
     ModelMapper mapper;
 
+    @Override
     public List<SeatDTO> findAvailableSeats(Long showtimeId) {
-        log.info("Finding all seats by showtime ID: {}", showtimeId);
+        log.info("Finding all available seats with showtime ID: {}", showtimeId);
 
         List<ShowtimeSeat> availableSeats = showtimeSeatRepository
                 .findByShowtimeIdAndAvailableTrue(showtimeId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No seats available for this showtime"));
 
         return availableSeats.stream()
-                .map(showtimeSeat -> mapper.map(showtimeSeat.getSeat(), SeatDTO.class))
+                .map(showtimeSeat -> this.convertShowtimeSeatToDTO(showtimeSeat.getSeat()))
                 .collect(Collectors.toList());
     }
+
+    private SeatDTO convertShowtimeSeatToDTO(Seat seat) {
+        return mapper.map(seat, SeatDTO.class);
+    }
+
+    @Override
+    public Seat purchaseSeat(Long seatId) {
+        log.info("Finding seat with ID: {}", seatId);
+
+        ShowtimeSeat seat = showtimeSeatRepository.findByIdAndAvailableTrue(seatId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seat doesn't exist or has already been purchased"));
+
+        seat.setAvailable(false);
+
+        return showtimeSeatRepository.save(seat).getSeat();
+    }
+
+
 }

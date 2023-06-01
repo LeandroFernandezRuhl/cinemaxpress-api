@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ShowtimeSeatRepository extends CrudRepository<ShowtimeSeat, Long> {
     Optional<List<ShowtimeSeat>> findByShowtimeIdAndAvailableTrue(Long showtimeId);
+    Optional<ShowtimeSeat> findByIdAndAvailableTrue(Long id);
 }
