@@ -19,7 +19,9 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(name = "seat_row")
     private int row;
+    @Column(name = "seat_column")
     private int column;
     private double price;
     private String roomNumber;
