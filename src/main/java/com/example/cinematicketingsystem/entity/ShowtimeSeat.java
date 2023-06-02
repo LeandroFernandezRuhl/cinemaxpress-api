@@ -38,4 +38,13 @@ public class ShowtimeSeat {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "ShowtimeSeat{" +
+                "id=" + id +
+                ", available=" + available +
+                ", seat=" + seat +
+                '}';
+    }
 }

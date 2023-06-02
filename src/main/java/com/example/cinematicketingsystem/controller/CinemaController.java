@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @AllArgsConstructor
@@ -27,24 +28,30 @@ public class CinemaController {
     private final TicketService ticketService;
 
     @GetMapping("/availableSeats")
-    public ResponseEntity<List<SeatDTO>> getAvailableSeats(
-            @RequestParam("showtimeId") Long showtimeId) {
+    public ResponseEntity<List<SeatDTO>> getAvailableSeats(@RequestParam("showtimeId") Long showtimeId) {
 
         // Retrieve the available seats for the showtime
-        List<SeatDTO> list = showtimeSeatService.findAvailableSeats(showtimeId);
+        List<SeatDTO> availableSeats = showtimeSeatService.findAvailableSeats(showtimeId);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(availableSeats);
     }
 
     @PostMapping("/purchaseSeat")
-    public ResponseEntity<Ticket> purchaseSeat(
-            @RequestParam("showtimeId") Long showtimeId,
-            @RequestParam("seatId") Long seatId) {
-        Seat seat = showtimeSeatService.purchaseSeat(seatId);
-        Showtime showtime = showtimeService.findById(showtimeId);
+    public ResponseEntity<Ticket> purchaseSeat(@RequestParam("seatId") Long seatId) {
+        ShowtimeSeat showtimeSeat = showtimeSeatService.purchaseSeat(seatId);
+        Showtime showtime = showtimeSeat.getShowtime();
 
-        Ticket ticket = ticketService.generateTicket(seat, showtime);
+        Ticket ticket = ticketService.generateTicket(showtimeSeat.getSeat(), showtime);
 
         return ResponseEntity.ok(ticket);
+    }
+
+    @PostMapping("/refundSeat")
+    public ResponseEntity<String> purchaseSeat(@RequestParam("ticketId") String ticketId) {
+        Ticket ticket = ticketService.findById(UUID.fromString(ticketId));
+        Showtime showtime = showtimeService.findByTicket(ticket);
+        showtimeSeatService.refundSeat(showtime, ticket);
+        ticketService.deleteTicket(ticket);
+        return ResponseEntity.ok("Ticket successfully refunded");
     }
 }

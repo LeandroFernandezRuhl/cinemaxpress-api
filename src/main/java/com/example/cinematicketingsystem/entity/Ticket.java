@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ public class Ticket {
     @Column(name = "seat_column")
     private int column;
     private double price;
-    private String roomNumber;
+    private Long roomNumber;
     private String movieTitle;
     private LocalDateTime showtimeDateTime;
     private LocalDateTime issueDateTime;
@@ -33,7 +34,7 @@ public class Ticket {
         row = seat.getRow();
         column = seat.getColumn();
         price = seat.getPrice();
-        roomNumber = showtime.getCinemaRoom().getRoomNumber();
+        roomNumber = showtime.getCinemaRoom().getId();
         movieTitle = showtime.getMovie().getTitle();
         showtimeDateTime = showtime.getDateTime();
         issueDateTime = LocalDateTime.now();
@@ -50,5 +51,19 @@ public class Ticket {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", row=" + row +
+                ", column=" + column +
+                ", price=" + price +
+                ", roomNumber=" + roomNumber +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", showtimeDateTime=" + showtimeDateTime +
+                ", issueDateTime=" + issueDateTime +
+                '}';
     }
 }

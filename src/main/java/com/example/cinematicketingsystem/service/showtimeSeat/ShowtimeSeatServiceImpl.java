@@ -2,8 +2,11 @@ package com.example.cinematicketingsystem.service.showtimeSeat;
 
 import com.example.cinematicketingsystem.dto.SeatDTO;
 import com.example.cinematicketingsystem.entity.Seat;
+import com.example.cinematicketingsystem.entity.Showtime;
 import com.example.cinematicketingsystem.entity.ShowtimeSeat;
+import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.repository.ShowtimeSeatRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -42,7 +45,7 @@ public class ShowtimeSeatServiceImpl implements ShowtimeSeatService {
     }
 
     @Override
-    public Seat purchaseSeat(Long seatId) {
+    public ShowtimeSeat purchaseSeat(Long seatId) {
         log.info("Finding seat with ID: {}", seatId);
 
         ShowtimeSeat seat = showtimeSeatRepository.findByIdAndAvailableTrue(seatId)
@@ -50,7 +53,22 @@ public class ShowtimeSeatServiceImpl implements ShowtimeSeatService {
 
         seat.setAvailable(false);
 
-        return showtimeSeatRepository.save(seat).getSeat();
+        return showtimeSeatRepository.save(seat);
+    }
+
+    @Override
+    @Transactional
+    public void refundSeat(Showtime showtime, Ticket ticket) {
+        log.info("Refunding ticket with ID: {}", ticket.getId());
+        System.out.println(ticket);
+        System.out.println(showtime);
+
+        ShowtimeSeat seat = showtimeSeatRepository.findByShowtimeAndSeat_RowAndSeat_Column(showtime, ticket.getRow(), ticket.getColumn())
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seat not found for refund"));
+        System.out.println(seat);
+        seat.setAvailable(true);
+        System.out.println(seat);
+        showtimeSeatRepository.save(seat);
     }
 
 

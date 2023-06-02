@@ -1,6 +1,7 @@
 package com.example.cinematicketingsystem.service.showtime;
 
 import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.repository.ShowtimeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,13 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         }
 
         return optional.get();
+    }
+
+    @Override
+    public Showtime findByTicket(Ticket ticket) {
+        log.info("Finding showtime for ticket with ID: {}", ticket.getId());
+        return showtimeRepository.findByDateTimeAndCinemaRoom_Id(ticket.getShowtimeDateTime(), ticket.getRoomNumber())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Showtime not found for given ticket"));
     }
 
     //Delete, Save/Update. ?

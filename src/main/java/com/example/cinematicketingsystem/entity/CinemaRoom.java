@@ -21,7 +21,6 @@ public class CinemaRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String roomNumber;
     private boolean has3d;
     private boolean hasSurround;
     private int numberOfRows;
