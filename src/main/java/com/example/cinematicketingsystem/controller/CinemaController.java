@@ -47,7 +47,7 @@ public class CinemaController {
     }
 
     @PostMapping("/refundSeat")
-    public ResponseEntity<String> purchaseSeat(@RequestParam("ticketId") String ticketId) {
+    public ResponseEntity<String> refundSeat(@RequestParam("ticketId") String ticketId) {
         Ticket ticket = ticketService.findById(UUID.fromString(ticketId));
         Showtime showtime = showtimeService.findByTicket(ticket);
         showtimeSeatService.refundSeat(showtime, ticket);

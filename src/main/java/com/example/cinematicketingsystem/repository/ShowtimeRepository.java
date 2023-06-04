@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ShowtimeRepository extends CrudRepository<Showtime, Long> {
-    Optional<List<Showtime>> findAllByMovieId(Long movieId);
+    List<Showtime> findAllByMovieId(Long movieId);
     Optional<Showtime> findByDateTimeAndCinemaRoom_Id(LocalDateTime dateTime, Long id);
 }
