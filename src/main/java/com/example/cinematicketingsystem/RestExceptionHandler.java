@@ -2,6 +2,7 @@ package com.example.cinematicketingsystem;
 
 import com.example.cinematicketingsystem.apierror.ApiError;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
+import com.example.cinematicketingsystem.exception.MovieApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -23,6 +24,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.net.URISyntaxException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -194,8 +197,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the ApiError object wrapped in a ResponseEntity
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(
-            EntityNotFoundException ex) {
+    protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
@@ -230,6 +232,34 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
                 ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    /**
+     * Handles URISyntaxException. Triggered when a URI syntax error occurs.
+     * @param ex the URISyntaxException to be handled
+     * @param request the current request
+     * @return the ApiError object wrapped in a ResponseEntity
+     */
+    @ExceptionHandler(URISyntaxException.class)
+    protected ResponseEntity<Object> handleURISyntaxException(
+            URISyntaxException ex,
+            WebRequest request) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage("Invalid URI syntax");
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(MovieApiException.class)
+    protected ResponseEntity<Object> handleMovieApiException(MovieApiException ex) {
+        if (ex.isMovieNotFound()) {
+            ApiError apiError = new ApiError(NOT_FOUND);
+            apiError.setMessage(ex.getMessage());
+            return buildResponseEntity(apiError);
+        }
+        ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
 }

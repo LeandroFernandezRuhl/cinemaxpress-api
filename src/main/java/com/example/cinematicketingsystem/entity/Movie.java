@@ -16,10 +16,12 @@ import java.util.Objects;
 @Order(3)
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    //more fields that depend on what the API sends
+    private String overview;
+    private String posterPath;
+    private Long duration;
 
 
     @Override

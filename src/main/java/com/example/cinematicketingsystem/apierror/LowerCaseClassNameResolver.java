@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.serialization;
+package com.example.cinematicketingsystem.apierror;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
