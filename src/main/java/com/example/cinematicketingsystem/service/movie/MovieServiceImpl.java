@@ -1,6 +1,9 @@
 package com.example.cinematicketingsystem.service.movie;
 
 import com.example.cinematicketingsystem.entity.Movie;
+import com.example.cinematicketingsystem.entity.Seat;
+import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.MovieApiException;
 import com.example.cinematicketingsystem.movieapi.JSONConverter;
 import com.example.cinematicketingsystem.movieapi.MovieApiClient;
@@ -22,6 +25,12 @@ public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
     private MovieApiClient movieApiClient;
     private JSONConverter jsonConverter;
+
+    @Override
+    public void saveMovie(Movie movie) {
+        log.debug("Generating movie with ID = {}", movie.getId());
+        movieRepository.save(movie);
+    }
 
     @Override
     public List<Movie> findAllMovies() {

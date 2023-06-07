@@ -1,14 +1,12 @@
 package com.example.cinematicketingsystem.controller;
 
 import com.example.cinematicketingsystem.dto.SeatDTO;
-import com.example.cinematicketingsystem.entity.Seat;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.ShowtimeSeat;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.entity.*;
 import com.example.cinematicketingsystem.service.movie.MovieService;
 import com.example.cinematicketingsystem.service.showtime.ShowtimeService;
 import com.example.cinematicketingsystem.service.showtimeSeat.ShowtimeSeatService;
 import com.example.cinematicketingsystem.service.ticket.TicketService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.mapper.Mapper;
@@ -65,5 +63,11 @@ public class CinemaController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         return new ResponseEntity<>(jsonMovieList, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/saveMovie") @Valid
+    public ResponseEntity<String> saveMovie(@RequestBody Movie movie) {
+        movieService.saveMovie(movie);
+        return ResponseEntity.ok("Movie successfully saved in the database");
     }
 }

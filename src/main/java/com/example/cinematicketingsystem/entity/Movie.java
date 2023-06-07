@@ -1,10 +1,14 @@
 package com.example.cinematicketingsystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.core.annotation.Order;
 
 import java.util.Objects;
@@ -15,13 +19,15 @@ import java.util.Objects;
 @Table(name = "movies")
 @Order(3)
 public class Movie {
-    @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @NotNull
     private Long id;
+    @NotBlank
     private String title;
+    @Column(columnDefinition = "TEXT") @NotBlank
     private String overview;
     private String posterPath;
-    private Long duration;
+    @NotNull
+    private Long durationInMinutes;
 
 
     @Override
