@@ -28,7 +28,7 @@ public class Showtime {
     @OneToMany(mappedBy = "showtime", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ShowtimeSeat> seats;
     @ManyToOne
-    @JoinColumn(name = "movie_id") //fetch lazy?
+    @JoinColumn(name = "movie_id", foreignKey = @ForeignKey(name = "fk_showtime_movie")) //fetch lazy?
     private Movie movie;
 
     public void initializeAvailableSeats(ShowtimeSeatRepository showtimeSeatRepository) {

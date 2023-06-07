@@ -70,4 +70,16 @@ public class CinemaController {
         movieService.saveMovie(movie);
         return ResponseEntity.ok("Movie successfully saved in the database");
     }
+
+    @DeleteMapping("/deleteMovie")
+    public ResponseEntity<String> deleteMovie(@RequestParam("id") Long id) {
+        movieService.deleteMovie(id);
+        return ResponseEntity.ok("Movie successfully deleted");
+    }
+
+    @GetMapping("/movies")
+    public ResponseEntity<List<Movie>> getMovies() {
+        List<Movie> movies = movieService.findAllMovies();
+        return ResponseEntity.ok(movies);
+    }
 }

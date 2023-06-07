@@ -33,6 +33,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public void deleteMovie(Long id) {
+        log.debug("Deleting movie with ID = {}", id);
+        movieRepository.deleteById(id);
+    }
+
+    @Override
     public List<Movie> findAllMovies() {
         log.debug("Finding all movies");
         List<Movie> movies = new ArrayList<>();
