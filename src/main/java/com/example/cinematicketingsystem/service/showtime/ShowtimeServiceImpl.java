@@ -1,22 +1,54 @@
 package com.example.cinematicketingsystem.service.showtime;
 
+import com.example.cinematicketingsystem.entity.CinemaRoom;
+import com.example.cinematicketingsystem.entity.Movie;
 import com.example.cinematicketingsystem.entity.Showtime;
 import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
+import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
 import com.example.cinematicketingsystem.repository.ShowtimeRepository;
+import com.example.cinematicketingsystem.repository.ShowtimeSeatRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
+@AllArgsConstructor
 @Service
 public class ShowtimeServiceImpl implements ShowtimeService {
-
+    ShowtimeSeatRepository showtimeSeatRepository;
     ShowtimeRepository showtimeRepository;
 
-    public ShowtimeServiceImpl(ShowtimeRepository showtimeRepository) {
-        this.showtimeRepository = showtimeRepository;
+    @Override
+    public void saveShowtime(Movie movie, CinemaRoom room, LocalDateTime startTime, LocalDateTime endTime) {
+        LocalDateTime earliestEndTime = calculateEarliestEndTime(startTime, movie.getDurationInMinutes());
+
+        if (endTime.isBefore(earliestEndTime)) {
+            throw new IllegalArgumentException("The provided end time is too early. Choose a later end time to accommodate the full movie duration");
+        }
+
+        List<Showtime> overlappingShowtimes = showtimeRepository.findOverlappingShowtimes(room.getId(), startTime, endTime);
+        if (overlappingShowtimes.size() > 0) {
+            throw new ShowtimeOverlapException("The provided time range overlap with existent showtimes", overlappingShowtimes);
+        }
+        Showtime newShowtime = new Showtime(startTime, endTime, room, movie);
+        showtimeRepository.save(newShowtime);
+        newShowtime.initializeAvailableSeats(showtimeSeatRepository);
+    }
+
+    public LocalDateTime calculateEarliestEndTime(LocalDateTime startTime, Long movieDuration) {
+        return startTime.plusMinutes(movieDuration);
+    }
+
+    @Override
+    public Showtime findByTicket(Ticket ticket) {
+        log.debug("Finding showtime for ticket with ID = {}", ticket.getId());
+        return showtimeRepository.findByStartTimeAndCinemaRoom_Id(ticket.getShowtimeStartTime(), ticket.getRoomNumber())
+                .orElseThrow(() -> new EntityNotFoundException(Showtime.class, "ticketId", ticket.getId().toString(),
+                        "showtimeDateTime", ticket.getShowtimeStartTime().toString()));
     }
 
     @Override
@@ -34,13 +66,5 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         log.debug("Finding showtime with ID = {}", id);
         return showtimeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Showtime.class, "id", id.toString()));
-    }
-
-    @Override
-    public Showtime findByTicket(Ticket ticket) {
-        log.debug("Finding showtime for ticket with ID = {}", ticket.getId());
-        return showtimeRepository.findByDateTimeAndCinemaRoom_Id(ticket.getShowtimeDateTime(), ticket.getRoomNumber())
-                .orElseThrow(() -> new EntityNotFoundException(Showtime.class, "ticketId", ticket.getId().toString(),
-                        "showtimeDateTime", ticket.getShowtimeDateTime().toString()));
     }
 }

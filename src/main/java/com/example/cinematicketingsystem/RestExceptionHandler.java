@@ -3,6 +3,7 @@ package com.example.cinematicketingsystem;
 import com.example.cinematicketingsystem.apierror.ApiError;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.MovieApiException;
+import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -267,6 +268,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
         ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
         apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        // Add additional details or custom error handling if needed
+
+        return buildResponseEntity(apiError);
+    }
+    @ExceptionHandler(ShowtimeOverlapException.class)
+    protected ResponseEntity<Object> handleShowtimeOverlapException(ShowtimeOverlapException ex) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        apiError.addOverlappingErrors(ex.getOverlappingErrors());
         return buildResponseEntity(apiError);
     }
 }

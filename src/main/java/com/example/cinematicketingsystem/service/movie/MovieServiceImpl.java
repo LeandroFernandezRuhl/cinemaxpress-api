@@ -1,9 +1,6 @@
 package com.example.cinematicketingsystem.service.movie;
 
-import com.example.cinematicketingsystem.entity.Movie;
-import com.example.cinematicketingsystem.entity.Seat;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.entity.*;
 import com.example.cinematicketingsystem.exception.MovieApiException;
 import com.example.cinematicketingsystem.movieapi.JSONConverter;
 import com.example.cinematicketingsystem.movieapi.MovieApiClient;
@@ -32,10 +29,18 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.save(movie);
     }
 
+    //throws dataIntegrityViolationException
     @Override
     public void deleteMovie(Long id) {
         log.debug("Deleting movie with ID = {}", id);
         movieRepository.deleteById(id);
+    }
+
+    @Override
+    public Movie findById(Long id) {
+        log.debug("Finding movie with ID = {}", id);
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new com.example.cinematicketingsystem.exception.EntityNotFoundException(Movie.class, "id", id.toString()));
     }
 
     @Override

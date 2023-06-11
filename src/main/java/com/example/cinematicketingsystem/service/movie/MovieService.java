@@ -8,5 +8,6 @@ public interface MovieService {
     void saveMovie(Movie movie);
     void deleteMovie(Long id);
     List<Movie> findAllMovies();
+    Movie findById(Long id);
     String searchInMovieApi(String title);
 }

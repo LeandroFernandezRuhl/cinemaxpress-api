@@ -58,6 +58,16 @@ public class ApiError {
         subErrors.add(subError);
     }
 
+    private void addOverlappingError(OverlappingError overlappingError) {
+        if (subErrors == null) {
+            subErrors = new ArrayList<>();
+        }
+        subErrors.add(overlappingError);
+    }
+public void addOverlappingErrors(List<OverlappingError> overlappingErrors) {
+        overlappingErrors.forEach(this::addOverlappingError);
+    }
+
     // Used for field errors and constraint violations
     private void addValidationError(String object, String field, Object rejectedValue, String message) {
         addSubError(new ApiValidationError(object, field, rejectedValue, message));

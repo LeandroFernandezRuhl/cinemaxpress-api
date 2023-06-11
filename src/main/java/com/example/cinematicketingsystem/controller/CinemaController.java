@@ -1,7 +1,9 @@
 package com.example.cinematicketingsystem.controller;
 
+import com.example.cinematicketingsystem.dto.CreateShowtimeDTO;
 import com.example.cinematicketingsystem.dto.SeatDTO;
 import com.example.cinematicketingsystem.entity.*;
+import com.example.cinematicketingsystem.service.cinemaRoom.CinemaRoomService;
 import com.example.cinematicketingsystem.service.movie.MovieService;
 import com.example.cinematicketingsystem.service.showtime.ShowtimeService;
 import com.example.cinematicketingsystem.service.showtimeSeat.ShowtimeSeatService;
@@ -9,13 +11,11 @@ import com.example.cinematicketingsystem.service.ticket.TicketService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,10 +24,19 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/cinema")
 public class CinemaController {
+    private final CinemaRoomService cinemaRoomService;
     private final ShowtimeService showtimeService;
     private final ShowtimeSeatService showtimeSeatService;
     private final TicketService ticketService;
     private final MovieService movieService;
+
+    @PostMapping("/saveShowtime")
+    public ResponseEntity<String> saveShowtime(@RequestBody @Valid CreateShowtimeDTO request) {
+        Movie movie = movieService.findById(request.getMovieId());
+        CinemaRoom room = cinemaRoomService.findById(request.getRoomId());
+        showtimeService.saveShowtime(movie, room, request.getStartTime(), request.getEndTime());
+        return ResponseEntity.ok("Showtime sucessfully saved");
+    }
 
     @GetMapping("/availableSeats")
     public ResponseEntity<List<SeatDTO>> getAvailableSeats(@RequestParam("showtimeId") Long showtimeId) {
@@ -65,8 +74,8 @@ public class CinemaController {
         return new ResponseEntity<>(jsonMovieList, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/saveMovie") @Valid
-    public ResponseEntity<String> saveMovie(@RequestBody Movie movie) {
+    @PostMapping("/saveMovie")
+    public ResponseEntity<String> saveMovie(@RequestBody @Valid Movie movie) {
         movieService.saveMovie(movie);
         return ResponseEntity.ok("Movie successfully saved in the database");
     }
