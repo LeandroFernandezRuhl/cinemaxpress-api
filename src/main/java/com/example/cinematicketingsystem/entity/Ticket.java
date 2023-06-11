@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
-import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -27,7 +25,8 @@ public class Ticket {
     private double price;
     private Long roomNumber;
     private String movieTitle;
-    private LocalDateTime showtimeDateTime;
+    private LocalDateTime showtimeStartTime;
+    private LocalDateTime showtimeEndTime;
     private LocalDateTime issueDateTime;
 
     public Ticket(Seat seat, Showtime showtime) {
@@ -36,7 +35,8 @@ public class Ticket {
         price = seat.getPrice();
         roomNumber = showtime.getCinemaRoom().getId();
         movieTitle = showtime.getMovie().getTitle();
-        showtimeDateTime = showtime.getDateTime();
+        showtimeStartTime = showtime.getStartTime();
+        showtimeEndTime = showtime.getEndTime();
         issueDateTime = LocalDateTime.now();
     }
 
@@ -62,7 +62,8 @@ public class Ticket {
                 ", price=" + price +
                 ", roomNumber=" + roomNumber +
                 ", movieTitle='" + movieTitle + '\'' +
-                ", showtimeDateTime=" + showtimeDateTime +
+                ", showtimeStartTime=" + showtimeStartTime +
+                ", showtimeEndTime=" + showtimeEndTime +
                 ", issueDateTime=" + issueDateTime +
                 '}';
     }

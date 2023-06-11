@@ -1,5 +1,6 @@
 package com.example.cinematicketingsystem.entity;
 
+import com.example.cinematicketingsystem.repository.ShowtimeRepository;
 import com.example.cinematicketingsystem.repository.ShowtimeSeatRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,7 +23,8 @@ public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime dateTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     @ManyToOne
     @JoinColumn(name = "cinema_room_id")
     private CinemaRoom cinemaRoom;
@@ -30,6 +33,14 @@ public class Showtime {
     @ManyToOne
     @JoinColumn(name = "movie_id", foreignKey = @ForeignKey(name = "fk_showtime_movie")) //fetch lazy?
     private Movie movie;
+
+    public Showtime(LocalDateTime startTime, LocalDateTime endTime, CinemaRoom cinemaRoom, Movie movie) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.cinemaRoom = cinemaRoom;
+        this.movie = movie;
+        seats = new HashSet<>();
+    }
 
     public void initializeAvailableSeats(ShowtimeSeatRepository showtimeSeatRepository) {
         Set<Seat> roomSeats = cinemaRoom.getSeats();
