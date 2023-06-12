@@ -5,6 +5,7 @@ import com.example.cinematicketingsystem.entity.Showtime;
 import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,12 @@ public class TicketServiceImpl implements TicketService {
         log.debug("Generating ticket with seat ID = {} and showtime ID = {}", seat.getId(), showtime.getId());
         Ticket ticket = new Ticket(seat, showtime);
         return ticketRepository.save(ticket);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTicketsByShowtime(Showtime showtime) {
+        ticketRepository.deleteAllByShowtimeStartTime(showtime.getStartTime());
     }
 
     @Override

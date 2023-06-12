@@ -10,4 +10,5 @@ public interface TicketService {
     Ticket generateTicket(Seat seat, Showtime showtime);
     void deleteTicket(Ticket ticket);
     Ticket findById(UUID id);
+    void deleteTicketsByShowtime(Showtime showtime);
 }

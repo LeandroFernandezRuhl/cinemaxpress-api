@@ -42,8 +42,7 @@ public class ShowtimeSeatServiceImpl implements ShowtimeSeatService {
     public ShowtimeSeat purchaseSeat(Long seatId) {
         log.debug("Finding seat with ID = {}", seatId);
         ShowtimeSeat seat = showtimeSeatRepository.findByIdAndAvailableTrue(seatId)
-                .orElseThrow(() -> new EntityNotFoundException(ShowtimeSeat.class, "id", seatId.toString(),
-                        "available", "true"));
+                .orElseThrow(() -> new EntityNotFoundException(ShowtimeSeat.class, "id", seatId.toString()));
         seat.setAvailable(false);
         return showtimeSeatRepository.save(seat);
     }

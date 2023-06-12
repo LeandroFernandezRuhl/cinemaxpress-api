@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,12 +31,23 @@ public class CinemaController {
     private final TicketService ticketService;
     private final MovieService movieService;
 
+
+    @PostMapping("/deleteShowtime")
+public ResponseEntity<String> deleteShowtime(@RequestParam("showtimeId") Long id) {
+        Showtime showtime = showtimeService.findById(id);
+        if (LocalDateTime.now().isBefore(showtime.getStartTime())) {
+            ticketService.deleteTicketsByShowtime(showtime);
+        }
+        showtimeService.deleteShowtime(id);
+        return ResponseEntity.ok("Showtime successfully deleted");
+    }
+
     @PostMapping("/saveShowtime")
     public ResponseEntity<String> saveShowtime(@RequestBody @Valid CreateShowtimeDTO request) {
         Movie movie = movieService.findById(request.getMovieId());
         CinemaRoom room = cinemaRoomService.findById(request.getRoomId());
         showtimeService.saveShowtime(movie, room, request.getStartTime(), request.getEndTime());
-        return ResponseEntity.ok("Showtime sucessfully saved");
+        return ResponseEntity.ok("Showtime successfully saved");
     }
 
     @GetMapping("/availableSeats")

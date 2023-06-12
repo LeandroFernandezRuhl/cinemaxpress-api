@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ShowtimeService {
+    void deleteShowtime(Long id);
     void saveShowtime(Movie movie, CinemaRoom room, LocalDateTime startTime, LocalDateTime endTime);
     List<Showtime> findShowtimesByMovieId(Long movieId);
     Showtime findById(Long id);

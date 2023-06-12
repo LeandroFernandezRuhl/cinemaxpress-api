@@ -67,4 +67,10 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         return showtimeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Showtime.class, "id", id.toString()));
     }
+
+    @Override
+    public void deleteShowtime(Long id) {
+        log.debug("Deleting showtime with ID = {}", id);
+        showtimeRepository.deleteById(id);
+    }
 }
