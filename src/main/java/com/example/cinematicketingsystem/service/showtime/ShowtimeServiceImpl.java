@@ -8,6 +8,7 @@ import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
 import com.example.cinematicketingsystem.repository.ShowtimeRepository;
 import com.example.cinematicketingsystem.repository.ShowtimeSeatRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,15 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         LocalDateTime earliestEndTime = calculateEarliestEndTime(startTime, movie.getDurationInMinutes());
 
         if (endTime.isBefore(earliestEndTime)) {
-            throw new IllegalArgumentException("The provided end time is too early. Choose a later end time to accommodate the full movie duration");
+            throw new IllegalArgumentException(
+                    "The provided end time is too early. Choose a later end time to accommodate the full movie duration");
         }
 
-        List<Showtime> overlappingShowtimes = showtimeRepository.findOverlappingShowtimes(room.getId(), startTime, endTime);
+        List<Showtime> overlappingShowtimes =
+                showtimeRepository.findOverlappingShowtimes(room.getId(), startTime, endTime);
         if (overlappingShowtimes.size() > 0) {
-            throw new ShowtimeOverlapException("The provided time range overlap with existent showtimes", overlappingShowtimes);
+            throw new ShowtimeOverlapException("The provided time range overlap with existent showtimes",
+                    overlappingShowtimes);
         }
         Showtime newShowtime = new Showtime(startTime, endTime, room, movie);
         showtimeRepository.save(newShowtime);
@@ -56,7 +60,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         log.debug("Finding all showtimes with movie ID = {}", movieId);
         List<Showtime> showtimes = showtimeRepository.findAllByMovieId(movieId);
         if (showtimes.isEmpty()) {
-            throw new jakarta.persistence.EntityNotFoundException("No showtimes found with movie ID = "  + movieId);
+            throw new jakarta.persistence.EntityNotFoundException("No showtimes found with movie ID = " + movieId);
         }
         return showtimes;
     }
@@ -69,8 +73,13 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
+    @Transactional
     public void deleteShowtime(Long id) {
         log.debug("Deleting showtime with ID = {}", id);
-        showtimeRepository.deleteById(id);
+        Showtime showtime = showtimeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Showtime.class, "id", id.toString()));
+        CinemaRoom cinemaRoom = showtime.getCinemaRoom();
+        cinemaRoom.getShowtimes().remove(showtime);
+        showtimeRepository.delete(showtime);
     }
 }

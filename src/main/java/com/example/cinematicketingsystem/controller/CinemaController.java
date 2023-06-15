@@ -1,7 +1,9 @@
 package com.example.cinematicketingsystem.controller;
 
-import com.example.cinematicketingsystem.dto.CreateShowtimeDTO;
+import com.example.cinematicketingsystem.dto.CreateRoomDTO;
+import com.example.cinematicketingsystem.dto.ShowtimeDTO;
 import com.example.cinematicketingsystem.dto.SeatDTO;
+import com.example.cinematicketingsystem.dto.UpdateRoomDTO;
 import com.example.cinematicketingsystem.entity.*;
 import com.example.cinematicketingsystem.service.cinemaRoom.CinemaRoomService;
 import com.example.cinematicketingsystem.service.movie.MovieService;
@@ -31,10 +33,29 @@ public class CinemaController {
     private final TicketService ticketService;
     private final MovieService movieService;
 
+    @DeleteMapping("/deleteCinemaRoom")
+    public ResponseEntity<String> deleteCinemaRoom(@RequestParam("roomId") Long id) {
+        cinemaRoomService.deleteRoom(id);
+        return ResponseEntity.ok("Cinema room successfully deleted");
+    }
 
-    @PostMapping("/deleteShowtime")
-public ResponseEntity<String> deleteShowtime(@RequestParam("showtimeId") Long id) {
+    @PostMapping("/saveCinemaRoom")
+    public ResponseEntity<String> saveCinemaRoom(@RequestBody @Valid CreateRoomDTO request) {
+        cinemaRoomService.saveRoom(request.getHas3d(), request.getHasSurround(), request.getRows(),
+                request.getColumns(), request.getPrice());
+        return ResponseEntity.ok("Cinema room successfully created");
+    }
+
+    @PutMapping("/updateCinemaRoom")
+    public ResponseEntity<String> updateCinemaRoom(@RequestBody @Valid UpdateRoomDTO request) {
+        cinemaRoomService.updateRoom(request.getId(), request.getHas3d(), request.getHasSurround(), request.getPrice());
+        return ResponseEntity.ok("Cinema room successfully updated");
+    }
+
+    @DeleteMapping("/deleteShowtime")
+    public ResponseEntity<String> deleteShowtime(@RequestParam("showtimeId") Long id) {
         Showtime showtime = showtimeService.findById(id);
+        //chequear esto
         if (LocalDateTime.now().isBefore(showtime.getStartTime())) {
             ticketService.deleteTicketsByShowtime(showtime);
         }
@@ -43,7 +64,7 @@ public ResponseEntity<String> deleteShowtime(@RequestParam("showtimeId") Long id
     }
 
     @PostMapping("/saveShowtime")
-    public ResponseEntity<String> saveShowtime(@RequestBody @Valid CreateShowtimeDTO request) {
+    public ResponseEntity<String> saveShowtime(@RequestBody @Valid ShowtimeDTO request) {
         Movie movie = movieService.findById(request.getMovieId());
         CinemaRoom room = cinemaRoomService.findById(request.getRoomId());
         showtimeService.saveShowtime(movie, room, request.getStartTime(), request.getEndTime());
