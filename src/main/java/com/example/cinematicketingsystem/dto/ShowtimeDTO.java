@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class CreateShowtimeDTO {
+public class ShowtimeDTO {
     @NotNull
     private Long roomId;
 

@@ -64,7 +64,8 @@ public class ApiError {
         }
         subErrors.add(overlappingError);
     }
-public void addOverlappingErrors(List<OverlappingError> overlappingErrors) {
+
+    public void addOverlappingErrors(List<OverlappingError> overlappingErrors) {
         overlappingErrors.forEach(this::addOverlappingError);
     }
 

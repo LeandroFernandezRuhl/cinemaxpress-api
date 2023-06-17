@@ -1,6 +1,7 @@
 package com.example.cinematicketingsystem;
 
 import com.example.cinematicketingsystem.apierror.ApiError;
+import com.example.cinematicketingsystem.exception.EntityAlreadyExistsException;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.MovieApiException;
 import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
@@ -34,7 +35,6 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
     /**
      * Builds a ResponseEntity that wraps an ApiError.
      * @param apiError the ApiError
@@ -272,7 +272,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex) {
+    protected ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
         // Add additional details or custom error handling if needed
@@ -280,10 +280,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
     @ExceptionHandler(ShowtimeOverlapException.class)
-    protected ResponseEntity<Object> handleShowtimeOverlapException(ShowtimeOverlapException ex) {
+    protected ResponseEntity<Object> handleShowtimeOverlap(ShowtimeOverlapException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
         apiError.addOverlappingErrors(ex.getOverlappingErrors());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleEntityAlreadyExists(EntityAlreadyExistsException ex) {
+        ApiError apiError = new ApiError(CONFLICT);
+        apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
 }

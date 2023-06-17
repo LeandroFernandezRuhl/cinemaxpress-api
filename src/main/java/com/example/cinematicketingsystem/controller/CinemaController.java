@@ -80,6 +80,12 @@ public class CinemaController {
         return ResponseEntity.ok(availableSeats);
     }
 
+    @GetMapping("/showtimes")
+    public ResponseEntity<List<ShowtimeDTO>> getShowtimesByMovieId(@RequestParam("movieId") Long movieId) {
+        List<ShowtimeDTO> showtimes = showtimeService.findShowtimesByMovieId(movieId);
+        return ResponseEntity.ok(showtimes);
+    }
+
     @PostMapping("/purchaseSeat")
     public ResponseEntity<Ticket> purchaseSeat(@RequestParam("seatId") Long seatId) {
         ShowtimeSeat showtimeSeat = showtimeSeatService.purchaseSeat(seatId);
@@ -113,6 +119,12 @@ public class CinemaController {
         return ResponseEntity.ok("Movie successfully saved in the database");
     }
 
+    @PatchMapping("/movies/{movieId}/availability")
+    public ResponseEntity<Movie> changeAvailability(@PathVariable Long movieId) {
+        Movie updatedMovie = movieService.changeAvailability(movieId);
+        return ResponseEntity.ok(updatedMovie);
+    }
+
     @DeleteMapping("/deleteMovie")
     public ResponseEntity<String> deleteMovie(@RequestParam("id") Long id) {
         movieService.deleteMovie(id);
@@ -122,6 +134,12 @@ public class CinemaController {
     @GetMapping("/movies")
     public ResponseEntity<List<Movie>> getMovies() {
         List<Movie> movies = movieService.findAllMovies();
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/availableMovies")
+    public ResponseEntity<List<Movie>> getAvailableMovies() {
+        List<Movie> movies = movieService.findAllAvailableMovies();
         return ResponseEntity.ok(movies);
     }
 }

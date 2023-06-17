@@ -24,7 +24,7 @@ public class JSONConverter {
             String title = movie.getString("title");
             String posterPath = movie.isNull("poster_path") ? null : movie.getString("poster_path");
             String overview = movie.getString("overview");
-            movieList.add(new Movie(id, title, overview, posterPath, null));
+            movieList.add(new Movie(id, title, overview, posterPath));
         }
         return movieList;
         } catch (JSONException e) {

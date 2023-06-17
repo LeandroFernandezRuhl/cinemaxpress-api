@@ -21,6 +21,8 @@ import java.util.Objects;
 public class Movie {
     @Id @NotNull
     private Long id;
+    @NotNull
+    private Boolean available;
     @NotBlank
     private String title;
     @Column(columnDefinition = "TEXT") @NotBlank
@@ -29,6 +31,12 @@ public class Movie {
     @NotNull
     private Long durationInMinutes;
 
+    public Movie(@NotNull Long id, String title, String overview, String posterPath) {
+        this.id = id;
+        this.title = title;
+        this.overview = overview;
+        this.posterPath = posterPath;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,8 @@
 package com.example.cinematicketingsystem.service.showtime;
 
-import com.example.cinematicketingsystem.entity.CinemaRoom;
-import com.example.cinematicketingsystem.entity.Movie;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.dto.SeatDTO;
+import com.example.cinematicketingsystem.dto.ShowtimeDTO;
+import com.example.cinematicketingsystem.entity.*;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
 import com.example.cinematicketingsystem.repository.ShowtimeRepository;
@@ -11,10 +10,12 @@ import com.example.cinematicketingsystem.repository.ShowtimeSeatRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -22,6 +23,7 @@ import java.util.List;
 public class ShowtimeServiceImpl implements ShowtimeService {
     ShowtimeSeatRepository showtimeSeatRepository;
     ShowtimeRepository showtimeRepository;
+    ModelMapper mapper;
 
     @Override
     public void saveShowtime(Movie movie, CinemaRoom room, LocalDateTime startTime, LocalDateTime endTime) {
@@ -56,13 +58,18 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
-    public List<Showtime> findShowtimesByMovieId(Long movieId) {
+    public List<ShowtimeDTO> findShowtimesByMovieId(Long movieId) {
         log.debug("Finding all showtimes with movie ID = {}", movieId);
         List<Showtime> showtimes = showtimeRepository.findAllByMovieId(movieId);
         if (showtimes.isEmpty()) {
             throw new jakarta.persistence.EntityNotFoundException("No showtimes found with movie ID = " + movieId);
         }
-        return showtimes;
+        return showtimes.stream().map(this::convertShowtimeToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ShowtimeDTO convertShowtimeToDTO(Showtime showtime) {
+        return mapper.map(showtime, ShowtimeDTO.class);
     }
 
     @Override
