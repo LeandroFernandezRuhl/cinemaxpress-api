@@ -10,16 +10,13 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class ShowtimeDTO {
+public class CreateShowtimeDTO {
     @NotNull
     private Long roomId;
-
     @NotNull
     private Long movieId;
-
     @NotNull
     private LocalDateTime startTime;
-
     @NotNull
     private LocalDateTime endTime;
 }

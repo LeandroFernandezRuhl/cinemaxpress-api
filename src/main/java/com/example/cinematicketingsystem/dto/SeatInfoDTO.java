@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class SeatDTO {
+public class SeatInfoDTO {
     long id;
     int row;
     int column;
