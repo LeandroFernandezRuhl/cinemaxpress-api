@@ -25,14 +25,12 @@ import java.util.List;
 @RequestMapping("/private/showtimes")
 public class ShowtimeController {
     private ShowtimeService showtimeService;
-    private CinemaRoomService cinemaRoomService;
     private TicketService ticketService;
-    private MovieService movieService;
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteShowtime(@PathVariable("id") Long id) {
         Showtime showtime = showtimeService.findById(id);
-        //ver que hacer con esto
+        // if the showtime hasn't started yet refund the tickets
         if (LocalDateTime.now().isBefore(showtime.getStartTime())) {
             ticketService.deleteTicketsByShowtime(showtime);
         }
@@ -48,10 +46,8 @@ public class ShowtimeController {
 
     @PostMapping()
     public ResponseEntity<String> saveShowtime(@RequestBody @Valid CreateShowtimeDTO request) {
-        //mover estos dos adentro de save showtime
-        Movie movie = movieService.findById(request.getMovieId());
-        CinemaRoom room = cinemaRoomService.findById(request.getRoomId());
-        showtimeService.saveShowtime(movie, room, request.getStartTime(), request.getEndTime());
+        showtimeService.saveShowtime(request.getStartTime(), request.getEndTime(), request.getMovieId(),
+                request.getRoomId());
         return ResponseEntity.ok("Showtime successfully saved");
     }
 
