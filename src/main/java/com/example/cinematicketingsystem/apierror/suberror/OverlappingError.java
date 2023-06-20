@@ -28,7 +28,7 @@ public class OverlappingError extends SubError {
      */
     public OverlappingError(Showtime showtime) {
         id = showtime.getId();
-        message = "Showtime with ID " + id + " overlaps with the provided time range";
+        message = "Showtime with id=" + id + " overlaps with the provided time range";
         start = showtime.getStartTime();
         end = showtime.getEndTime();
     }

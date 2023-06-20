@@ -231,15 +231,27 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles {@link DataIntegrityViolationException}, inspects the cause for different DB causes.
+     * Handles {@link DataIntegrityViolationException} by inspecting the cause for different database causes.
+     * If the cause is a {@link ConstraintViolationException}, specific constraint violations are handled based on the constraint name.
      *
-     * @param ex the DataIntegrityViolationException to be handled
+     * @param ex      the DataIntegrityViolationException to be handled
+     * @param request the current web request
      * @return the ApiError object wrapped in a ResponseEntity
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolation(
             DataIntegrityViolationException ex,
             WebRequest request) {
+        if (ex.getCause() instanceof ConstraintViolationException constraintViolationException) {
+            String constraintName = constraintViolationException.getConstraintName();
+            String errorMessage = "Constraint violation";
+
+            // Handle specific constraint violations based on constraint name
+            if (constraintName.equals("fk_showtime_movie")) {
+                errorMessage = "Cannot delete the movie because it is referenced by one or several showtimes";
+            }
+            return buildResponseEntity(new ApiError(CONFLICT, errorMessage, ex.getCause()));
+        }
         return buildResponseEntity(new ApiError(INTERNAL_SERVER_ERROR, ex));
     }
 

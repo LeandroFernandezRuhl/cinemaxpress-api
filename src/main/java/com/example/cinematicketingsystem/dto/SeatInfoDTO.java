@@ -24,17 +24,17 @@ public class SeatInfoDTO {
     /**
      * The ID of the showtime seat.
      */
-    long id;
+    Long id;
     /**
      * The row number of the seat.
      */
-    int row;
+    Integer row;
     /**
      * The column number of the seat.
      */
-    int column;
+    Integer column;
     /**
      * The price of the seat.
      */
-    double price;
+    Double price;
 }

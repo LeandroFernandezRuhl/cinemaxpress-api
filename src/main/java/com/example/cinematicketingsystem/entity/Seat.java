@@ -32,16 +32,16 @@ public class Seat {
      * The row number of the seat.
      */
     @Column(name = "seat_row")
-    private int row;
+    private Integer row;
     /**
      * The column number of the seat.
      */
     @Column(name = "seat_column")
-    private int column;
+    private Integer column;
     /**
      * The price of the seat.
      */
-    private double price;
+    private Double price;
     /**
      * The cinema room associated with the seat.
      */
@@ -61,7 +61,7 @@ public class Seat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Seat seat = (Seat) o;
-        return row == seat.row && column == seat.column && Double.compare(seat.price,
+        return Objects.equals(row, seat.row) && Objects.equals(column, seat.column) && Double.compare(seat.price,
                 price) == 0 && Objects.equals(cinemaRoom, seat.cinemaRoom);
     }
 
