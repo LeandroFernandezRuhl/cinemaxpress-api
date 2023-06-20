@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.core.annotation.Order;
 
 import java.util.Objects;
@@ -72,6 +74,25 @@ public class Movie {
     }
 
     /**
+     * Generates a {@link JSONObject} of this movie.
+     * @return the {@link JSONObject} of this movie
+     */
+    public JSONObject toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", id);
+            jsonObject.put("available", available);
+            jsonObject.put("title", title);
+            jsonObject.put("overview", overview);
+            jsonObject.put("posterPath", posterPath);
+            jsonObject.put("durationInMinutes", durationInMinutes);
+        } catch (JSONException e) {
+            throw new RuntimeException("An error occurred while making the JSONObject of the movie: " + e.getMessage());
+        }
+        return jsonObject;
+    }
+
+    /**
      * Checks if this movie is equal to another object.
      * Two movies are considered equal if their IDs are equal.
      *
@@ -97,9 +118,9 @@ public class Movie {
     }
 
     /**
-     * Generates a string representation of this seat.
+     * Generates a string representation of this movie.
      *
-     * @return the string representation of this seat
+     * @return the string representation of this movie
      */
     @Override
     public String toString() {

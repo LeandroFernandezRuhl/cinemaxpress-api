@@ -8,7 +8,7 @@ import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
 import com.example.cinematicketingsystem.repository.ShowtimeRepository;
-import com.example.cinematicketingsystem.service.cinemaRoom.CinemaRoomService;
+import com.example.cinematicketingsystem.service.cinemaroom.CinemaRoomService;
 import com.example.cinematicketingsystem.service.movie.MovieService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

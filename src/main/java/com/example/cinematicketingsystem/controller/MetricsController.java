@@ -11,12 +11,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
+/**
+ * Controller class for retrieving ticket statistics.
+ * <p>
+ * This class handles HTTP requests related to ticket statistics and delegates the retrieval of metrics
+ * to the {@link TicketService}. It provides endpoints for retrieving ticket statistics based on a time range
+ * and a specific movie. The endpoints are prefixed with "/private/metrics".
+ */
 @AllArgsConstructor
 @RestController
 @RequestMapping("/private/metrics")
 public class MetricsController {
-    TicketService ticketService;
+    private TicketService ticketService;
 
+    /**
+     * Retrieves ticket statistics within a specified time range.
+     *
+     * @param from the start date of the time range
+     * @param to   the end date of the time range
+     * @return a {@link ResponseEntity} containing the {@link TicketInfoDTO} with the ticket statistics
+     */
     @GetMapping("time-range")
     public ResponseEntity<TicketInfoDTO> getTicketStats(
             @RequestParam("from") LocalDate from,
@@ -25,6 +39,12 @@ public class MetricsController {
         return ResponseEntity.ok(ticketStats);
     }
 
+    /**
+     * Retrieves ticket statistics for a specific movie.
+     *
+     * @param id the ID of the movie
+     * @return a {@link ResponseEntity} containing the {@link TicketInfoDTO} with the ticket statistics
+     */
     @GetMapping("movie")
     public ResponseEntity<TicketInfoDTO> getTicketStats(@RequestParam("id") Long id) {
         TicketInfoDTO ticketStats = ticketService.getTicketStatsByMovieId(id);

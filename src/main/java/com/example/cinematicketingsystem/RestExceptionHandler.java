@@ -5,17 +5,18 @@ import com.example.cinematicketingsystem.exception.EntityAlreadyExistsException;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.MovieApiException;
 import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -31,12 +32,25 @@ import java.net.URISyntaxException;
 
 import static org.springframework.http.HttpStatus.*;
 
+/**
+ * Global exception handler for RESTful API.
+ * <p>
+ * The {@code RestExceptionHandler} class provides centralized exception handling for common exceptions that may occur
+ * during the processing of RESTful API requests. It extends the {@link ResponseEntityExceptionHandler} class and is
+ * annotated with {@link ControllerAdvice} to allow global exception handling across multiple controllers. It uses the
+ * {@link Order} annotation to set the precedence of this exception handler to be the highest.
+ *
+ * <p>This class handles various exceptions by overriding the respective methods provided by {@link ResponseEntityExceptionHandler}.
+ * It builds a response entity with an {@link ApiError} object that encapsulates the error details and status code. The
+ * response entity is then returned to the client in the desired format, such as JSON.
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
-     * Builds a ResponseEntity that wraps an ApiError.
+     * Builds a ResponseEntity that wraps an {@link ApiError}.
+     *
      * @param apiError the ApiError
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -45,11 +59,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles for MissingServletRequestParameterException.
+     * Handles for {@link MissingServletRequestParameterException}.
      * Triggered when a 'required' request parameter is missing.
-     * @param ex the MissingServletRequestParameterException to be handled
+     *
+     * @param ex      the MissingServletRequestParameterException to be handled
      * @param headers the headers to use for the response
-     * @param status the status code to use for the response
+     * @param status  the status code to use for the response
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -65,11 +80,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     /**
-     * Handles HttpMediaTypeNotSupportedException. Triggered when a client POSTs,
+     * Handles {@link HttpMediaTypeNotSupportedException}. Triggered when a client POSTs,
      * PUTs, or PATCHes content of a type not supported by request handler.
-     * @param ex the HttpMediaTypeNotSupportedException to be handled
+     *
+     * @param ex      the HttpMediaTypeNotSupportedException to be handled
      * @param headers the headers to use for the response
-     * @param status the status code to use for the response
+     * @param status  the status code to use for the response
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -87,10 +103,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles MethodArgumentNotValidException. Triggered when validation on an argument annotated with @Valid fails.
-     * @param ex the MethodArgumentNotValidException to be handled
+     * Handles {@link MethodArgumentNotValidException}. Triggered when validation on an argument annotated with {@link Valid} fails.
+     *
+     * @param ex      the MethodArgumentNotValidException to be handled
      * @param headers the headers to be written to the response
-     * @param status the selected response status
+     * @param status  the selected response status
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -108,10 +125,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles HttpMessageNotReadableException. Triggered when the request has a malformed or invalid body.
-     * @param ex the HttpMessageNotReadableException to be handled
+     * Handles {@link HttpMessageNotReadableException}. Triggered when the request has a malformed or invalid body.
+     *
+     * @param ex      the HttpMessageNotReadableException to be handled
      * @param headers the headers to use for the response
-     * @param status the status code to use for the response
+     * @param status  the status code to use for the response
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -128,11 +146,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles HttpMessageNotWritableException. Triggered if the server encounters
+     * Handles {@link HttpMessageNotWritableException}. Triggered if the server encounters
      * an error while serializing an object into the desired format, such as JSON or XML.
-     * @param ex the HttpMessageNotWritableException to be handled
+     *
+     * @param ex      the HttpMessageNotWritableException to be handled
      * @param headers the headers to use for the response
-     * @param status the status code to use for the response
+     * @param status  the status code to use for the response
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -147,11 +166,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles NoHandlerFoundException. Triggered if the requested URL does not match any defined
+     * Handles {@link NoHandlerFoundException}. Triggered if the requested URL does not match any defined
      * routes or mappings in the web application or there is a missing or misconfigured handler or controller.
-     * @param ex the NoHandlerFoundException to be handled
+     *
+     * @param ex      the NoHandlerFoundException to be handled
      * @param headers the headers to use for the response
-     * @param status the status code to use for the response
+     * @param status  the status code to use for the response
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -162,13 +182,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request) {
         ApiError apiError = new ApiError(status);
-        apiError.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
+        apiError.setMessage(
+                String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
 
     /**
-     * Handles javax.validation.ConstraintViolationException. Thrown when @Validated fails.
+     * Handles {@link ConstraintViolationException}. Thrown when {@link Validated} fails.
+     *
      * @param ex the ConstraintViolationException to be handled
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -182,18 +204,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles jakarta.persistence.EntityNotFoundException. Triggered when an operation attempts to find an entity
+     * Handles {@link jakarta.persistence.EntityNotFoundException}. Triggered when an operation attempts to find an entity
      * by a certain identifier or criteria, but the entity is not found in the data store.
+     *
      * @param ex the EntityNotFoundException to be handled
      * @return the ApiError object wrapped in a ResponseEntity
      */
     @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex) {
-        return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, ex));
+        ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
     }
 
     /**
-     * Handles EntityNotFoundException. Created to encapsulate errors with more detail than jakarta.persistence.EntityNotFoundException.
+     * Handles {@link EntityNotFoundException}. Created to encapsulate errors with more detail than jakarta.persistence.EntityNotFoundException.
+     *
      * @param ex the EntityNotFoundException to be handled
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -205,7 +231,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles DataIntegrityViolationException, inspects the cause for different DB causes.
+     * Handles {@link DataIntegrityViolationException}, inspects the cause for different DB causes.
+     *
      * @param ex the DataIntegrityViolationException to be handled
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -213,22 +240,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleDataIntegrityViolation(
             DataIntegrityViolationException ex,
             WebRequest request) {
-        if (ex.getCause() instanceof ConstraintViolationException constraintViolationException) {
-            String constraintName = constraintViolationException.getConstraintName();
-            String errorMessage = "Database error";
-
-            // Handle specific constraint violations based on constraint name
-            if (constraintName.equals("fk_showtime_movie")) {
-                errorMessage = "Cannot delete the movie as it is referenced by one or several showtimes.";
-            }
-            return buildResponseEntity(new ApiError(CONFLICT, errorMessage, ex.getCause()));
-        }
         return buildResponseEntity(new ApiError(INTERNAL_SERVER_ERROR, ex));
     }
 
     /**
-     * Handles MethodArgumentTypeMismatchException. Thrown when a method argument fails type conversion.
-     * @param ex the MethodArgumentTypeMismatchException to be handled
+     * Handles {@link MethodArgumentTypeMismatchException}. Thrown when a method argument fails type conversion.
+     *
+     * @param ex      the MethodArgumentTypeMismatchException to be handled
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -244,8 +262,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles URISyntaxException. Triggered when a URI syntax error occurs.
-     * @param ex the URISyntaxException to be handled
+     * Handles {@link URISyntaxException}. Triggered when a URI syntax error occurs.
+     *
+     * @param ex      the URISyntaxException to be handled
      * @param request the current request
      * @return the ApiError object wrapped in a ResponseEntity
      */
@@ -259,9 +278,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    /**
+     * Handles {@link MovieApiException}.
+     * Triggered when an exception related to the movie API occurs.
+     * If the exception is caused by a movie not found, returns a NOT_FOUND response.
+     * Otherwise, returns an INTERNAL_SERVER_ERROR response.
+     *
+     * @param ex the MovieApiException to be handled
+     * @return the ApiError object wrapped in a ResponseEntity
+     */
     @ExceptionHandler(MovieApiException.class)
     protected ResponseEntity<Object> handleMovieApiException(MovieApiException ex) {
-        if (ex.isMovieNotFound()) {
+        if (ex.isCausedByMovieNotFound()) {
             ApiError apiError = new ApiError(NOT_FOUND);
             apiError.setMessage(ex.getMessage());
             return buildResponseEntity(apiError);
@@ -271,14 +299,29 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    /**
+     * Handles {@link IllegalArgumentException}.
+     * Triggered when an illegal argument is passed to a method.
+     * Returns a BAD_REQUEST response with the error message.
+     *
+     * @param ex the IllegalArgumentException to be handled
+     * @return the ApiError object wrapped in a ResponseEntity
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
-        // Add additional details or custom error handling if needed
-
         return buildResponseEntity(apiError);
     }
+
+    /**
+     * Handles {@link ShowtimeOverlapException}.
+     * Triggered when there is an overlap between showtimes.
+     * Returns a BAD_REQUEST response with the error message and overlapping errors.
+     *
+     * @param ex the ShowtimeOverlapException to be handled
+     * @return the ApiError object wrapped in a ResponseEntity
+     */
     @ExceptionHandler(ShowtimeOverlapException.class)
     protected ResponseEntity<Object> handleShowtimeOverlap(ShowtimeOverlapException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
@@ -287,6 +330,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    /**
+     * Handles {@link EntityAlreadyExistsException}.
+     * Triggered when an entity already exists in the data store.
+     * Returns a CONFLICT response with the error message.
+     *
+     * @param ex the EntityAlreadyExistsException to be handled
+     * @return the ApiError object wrapped in a ResponseEntity
+     */
     @ExceptionHandler(EntityAlreadyExistsException.class)
     protected ResponseEntity<Object> handleEntityAlreadyExists(EntityAlreadyExistsException ex) {
         ApiError apiError = new ApiError(CONFLICT);
@@ -294,6 +345,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    /**
+     * Handles {@link IllegalStateException}.
+     * Triggered when an illegal state is encountered.
+     * Returns a BAD_REQUEST response with the error message.
+     *
+     * @param ex the IllegalStateException to be handled
+     * @return the ApiError object wrapped in a ResponseEntity
+     */
     @ExceptionHandler(IllegalStateException.class)
     protected ResponseEntity<Object> handleIllegalState(IllegalStateException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);

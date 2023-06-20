@@ -4,7 +4,7 @@ import com.example.cinematicketingsystem.entity.*;
 import com.example.cinematicketingsystem.exception.EntityAlreadyExistsException;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.MovieApiException;
-import com.example.cinematicketingsystem.movieapi.JSONConverter;
+import com.example.cinematicketingsystem.movieapi.MovieJSONConverter;
 import com.example.cinematicketingsystem.movieapi.MovieApiClient;
 import com.example.cinematicketingsystem.repository.MovieRepository;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.List;
  * <p>
  * This class implements the {@link MovieService} interface and provides the implementation for all the methods
  * defined in the interface. It uses the {@link MovieRepository} to interact with the database and perform CRUD
- * operations on movie entities. It also uses the {@link MovieApiClient} and {@link JSONConverter} for external
+ * operations on movie entities. It also uses the {@link MovieApiClient} and {@link MovieJSONConverter} for external
  * movie API integration and JSON conversion, respectively.
  *
  * @see Movie
@@ -32,7 +32,7 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
     private MovieApiClient movieApiClient;
-    private JSONConverter jsonConverter;
+    private MovieJSONConverter movieJsonConverter;
 
     /**
      * {@inheritDoc}
@@ -132,10 +132,10 @@ public class MovieServiceImpl implements MovieService {
         } catch (IOException | InterruptedException e) {
             throw new MovieApiException(e);
         }
-        List<Movie> movieList = jsonConverter.JSONToMovieList(jsonResponse);
+        List<Movie> movieList = movieJsonConverter.JSONToMovieList(jsonResponse);
         if (movieList.isEmpty()) {
             throw new MovieApiException(title);
         }
-        return jsonConverter.MovieListToJSON(movieList);
+        return movieJsonConverter.MovieListToJSON(movieList);
     }
 }

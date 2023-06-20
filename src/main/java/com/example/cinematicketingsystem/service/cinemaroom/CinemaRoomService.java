@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.service.cinemaRoom;
+package com.example.cinematicketingsystem.service.cinemaroom;
 
 import com.example.cinematicketingsystem.entity.CinemaRoom;
 
