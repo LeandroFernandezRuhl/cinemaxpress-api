@@ -39,12 +39,12 @@ public interface TicketRepository extends CrudRepository<Ticket, String> {
     List<Ticket> findByIssueDateTimeIsBetween(LocalDateTime from, LocalDateTime to);
 
     /**
-     * Retrieves tickets associated with a specific movie ID.
+     * Retrieves tickets associated with a specific movie title.
      *
-     * @param id the ID of the movie
+     * @param title the title of the movie
      * @return a list of tickets associated with the movie
      */
-    List<Ticket> findByMovieId(Long id);
+    List<Ticket> findByMovieTitle(String title);
 
     /**
      * Retrieves a ticket with the specified UUID.

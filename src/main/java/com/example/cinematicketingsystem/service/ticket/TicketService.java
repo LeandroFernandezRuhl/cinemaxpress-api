@@ -12,7 +12,7 @@ import java.util.UUID;
  * Service interface for managing tickets.
  * <p>
  * This interface defines methods for generating tickets, deleting tickets, retrieving tickets by ID, deleting tickets
- * associated with a showtime, and retrieving ticket statistics based on time range and movie ID.
+ * associated with a showtime, and retrieving ticket statistics based on time range and movie title.
  *
  * @see Ticket
  */
@@ -58,10 +58,10 @@ public interface TicketService {
     TicketInfoDTO getTicketStatsByTimeRange(LocalDate fromDateTime, LocalDate toDateTime);
 
     /**
-     * Retrieves ticket statistics based on the specified movie ID.
+     * Retrieves ticket statistics based on the specified movie title.
      *
-     * @param id the ID of the movie for which to retrieve ticket statistics
+     * @param title the title of the movie for which to retrieve ticket statistics
      * @return a {@link TicketInfoDTO} object containing the ticket statistics for the specified movie ID
      */
-    TicketInfoDTO getTicketStatsByMovieId(Long id);
+    TicketInfoDTO getTicketStatsByMovieTitle(String title);
 }

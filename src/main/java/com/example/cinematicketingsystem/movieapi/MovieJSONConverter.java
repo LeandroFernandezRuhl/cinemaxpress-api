@@ -53,7 +53,6 @@ public class MovieJSONConverter {
      *
      * @param movieList the list of movie objects to be converted
      * @return a JSON string representation of the list of movie objects
-     * @throws JSONException if there is an error while creating the JSONObjects of the movies
      */
     public String MovieListToJSON(List<Movie> movieList) throws JSONException {
         JSONArray jsonArray = new JSONArray();

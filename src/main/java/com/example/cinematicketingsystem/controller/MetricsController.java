@@ -42,12 +42,12 @@ public class MetricsController {
     /**
      * Retrieves ticket statistics for a specific movie.
      *
-     * @param id the ID of the movie
+     * @param title the title of the movie
      * @return a {@link ResponseEntity} containing the {@link TicketInfoDTO} with the ticket statistics
      */
     @GetMapping("movie")
-    public ResponseEntity<TicketInfoDTO> getTicketStats(@RequestParam("id") Long id) {
-        TicketInfoDTO ticketStats = ticketService.getTicketStatsByMovieId(id);
+    public ResponseEntity<TicketInfoDTO> getTicketStats(@RequestParam("title") String title) {
+        TicketInfoDTO ticketStats = ticketService.getTicketStatsByMovieTitle(title);
         return ResponseEntity.ok(ticketStats);
     }
 }

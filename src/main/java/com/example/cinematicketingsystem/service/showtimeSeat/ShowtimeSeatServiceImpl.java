@@ -88,15 +88,20 @@ public class ShowtimeSeatServiceImpl implements ShowtimeSeatService {
      * @param showtime the showtime associated with the seat
      * @param ticket   the ticket associated with the seat
      * @throws EntityNotFoundException if no seat is found for the specified showtime, row, and column
+     * @throws IllegalStateException if the client tries to refund a ticket for a showtime that has already started
      */
     @Override
     public void refundSeat(Showtime showtime, Ticket ticket) {
+
         log.debug("Refunding ticket with ID={}", ticket.getId());
         int row = ticket.getRow();
         int column = ticket.getColumn();
         ShowtimeSeat seat = showtimeSeatRepository.findByShowtimeAndSeat_RowAndSeat_Column(showtime, row, column)
                 .orElseThrow(() -> new EntityNotFoundException(ShowtimeSeat.class, "id", showtime.getId().toString(),
                         "row", Integer.toString(row), "column", Integer.toString(column)));
+        if (showtime.getStartTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("Cannot refund a ticket for a showtime that has already started");
+        }
         seat.setAvailable(true);
         showtimeSeatRepository.save(seat);
     }

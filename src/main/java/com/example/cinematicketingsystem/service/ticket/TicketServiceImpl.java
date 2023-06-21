@@ -1,6 +1,7 @@
 package com.example.cinematicketingsystem.service.ticket;
 
 import com.example.cinematicketingsystem.dto.TicketInfoDTO;
+import com.example.cinematicketingsystem.entity.Movie;
 import com.example.cinematicketingsystem.entity.Seat;
 import com.example.cinematicketingsystem.entity.Showtime;
 import com.example.cinematicketingsystem.entity.Ticket;
@@ -46,13 +47,17 @@ public class TicketServiceImpl implements TicketService {
     /**
      * {@inheritDoc}
      *
-     * @param id the ID of the movie for which to retrieve ticket statistics
-     * @return a {@link TicketInfoDTO} object containing the ticket statistics for the specified movie ID
+     * @param title the title of the movie for which to retrieve ticket statistics
+     * @return a {@link TicketInfoDTO} object containing the ticket statistics for the specified movie title
+     * @throws EntityNotFoundException if there is no ticket with a movie that has the given title
      */
     @Override
-    public TicketInfoDTO getTicketStatsByMovieId(Long id) {
-        log.debug("Getting ticket stats for the movie ID={}", id);
-        List<Ticket> tickets = ticketRepository.findByMovieId(id);
+    public TicketInfoDTO getTicketStatsByMovieTitle(String title) {
+        log.debug("Getting ticket stats for movie with title={}", title);
+        List<Ticket> tickets = ticketRepository.findByMovieTitle(title);
+        if (tickets.isEmpty()) {
+            throw new EntityNotFoundException(Movie.class, "title", title);
+        }
         return listToTicketDTO(tickets);
     }
 

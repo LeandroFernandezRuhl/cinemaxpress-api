@@ -1,5 +1,6 @@
 package com.example.cinematicketingsystem.entity;
 
+import com.example.cinematicketingsystem.exception.MovieApiException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -87,7 +88,7 @@ public class Movie {
             jsonObject.put("posterPath", posterPath);
             jsonObject.put("durationInMinutes", durationInMinutes);
         } catch (JSONException e) {
-            throw new RuntimeException("An error occurred while making the JSONObject of the movie: " + e.getMessage());
+            throw new MovieApiException("An error occurred while making the JSONObject of the movie: " + e.getMessage());
         }
         return jsonObject;
     }

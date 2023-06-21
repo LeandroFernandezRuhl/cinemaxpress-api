@@ -49,12 +49,13 @@ public class CinemaRoomController {
     /**
      * Updates an existing cinema room based on the provided request data.
      *
+     * @param id the id of the room to update
      * @param request the {@link UpdateRoomDTO} object containing the data for updating a cinema room
      * @return a {@link ResponseEntity} with a success message if the cinema room is updated successfully
      */
-    @PutMapping()
-    public ResponseEntity<String> updateCinemaRoom(@RequestBody @Valid UpdateRoomDTO request) {
-        cinemaRoomService.updateRoom(request.getId(), request.getHas3d(), request.getHasSurround(), request.getPrice());
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateCinemaRoom(@PathVariable("id") Long id, @RequestBody @Valid UpdateRoomDTO request) {
+        cinemaRoomService.updateRoom(id, request.getHas3d(), request.getHasSurround(), request.getPrice());
         return ResponseEntity.ok("Cinema room successfully updated");
     }
 }

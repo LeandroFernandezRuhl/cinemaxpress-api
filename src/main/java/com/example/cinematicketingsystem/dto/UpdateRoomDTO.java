@@ -11,7 +11,7 @@ import com.example.cinematicketingsystem.entity.CinemaRoom;
 /**
  * Data Transfer Object (DTO) class representing the update information for a {@link CinemaRoom}.
  * <p>
- * This class encapsulates the update information for a cinema room, including the room ID, the availability of
+ * This class encapsulates the update information for a cinema room, including the availability of
  * 3D technology, the availability of surround sound, and the base seat price.
  */
 @Getter
@@ -19,11 +19,6 @@ import com.example.cinematicketingsystem.entity.CinemaRoom;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateRoomDTO {
-    /**
-     * The ID of the cinema room to update.
-     */
-    @NotNull
-    Long id;
     /**
      * Indicates whether the cinema room has 3D technology.
      */
