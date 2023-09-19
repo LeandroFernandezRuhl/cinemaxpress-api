@@ -1,11 +1,11 @@
 package com.example.cinematicketingsystem.service.showtimeSeat;
 
 import com.example.cinematicketingsystem.dto.SeatInfoDTO;
-import com.example.cinematicketingsystem.entity.Seat;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.ShowtimeSeat;
-import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
+import com.example.cinematicketingsystem.model.Seat;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.ShowtimeSeat;
+import com.example.cinematicketingsystem.model.Ticket;
 import com.example.cinematicketingsystem.repository.ShowtimeSeatRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +88,7 @@ public class ShowtimeSeatServiceImpl implements ShowtimeSeatService {
      * @param showtime the showtime associated with the seat
      * @param ticket   the ticket associated with the seat
      * @throws EntityNotFoundException if no seat is found for the specified showtime, row, and column
-     * @throws IllegalStateException if the client tries to refund a ticket for a showtime that has already started
+     * @throws IllegalStateException   if the client tries to refund a ticket for a showtime that has already started
      */
     @Override
     public void refundSeat(Showtime showtime, Ticket ticket) {

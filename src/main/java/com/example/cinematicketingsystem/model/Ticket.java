@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.entity;
+package com.example.cinematicketingsystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,7 @@ import java.util.UUID;
  * This class represents a ticket for a specific seat of a showtime. It contains information about a ticket,
  * such as its unique identifier, seat location, price, room number, movie title,
  * showtime start and end times, and issue date and time.
+ *
  * @see Showtime
  * @see Movie
  * @see CinemaRoom
@@ -24,7 +25,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tickets")
+@Table(name = "ticket")
 public class Ticket {
     /**
      * The unique identifier of the ticket.
@@ -74,7 +75,7 @@ public class Ticket {
     /**
      * Constructs a new ticket with the given seat and showtime.
      *
-     * @param seat the seat associated with the ticket
+     * @param seat     the seat associated with the ticket
      * @param showtime the showtime associated with the ticket
      */
     public Ticket(Seat seat, Showtime showtime) {

@@ -1,7 +1,7 @@
 package com.example.cinematicketingsystem.controller;
 
 import com.example.cinematicketingsystem.dto.CreateShowtimeDTO;
-import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.model.Showtime;
 import com.example.cinematicketingsystem.service.showtime.ShowtimeService;
 import com.example.cinematicketingsystem.service.ticket.TicketService;
 import jakarta.validation.Valid;

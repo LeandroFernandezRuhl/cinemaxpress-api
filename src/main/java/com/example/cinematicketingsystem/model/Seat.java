@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.entity;
+package com.example.cinematicketingsystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,7 @@ import java.util.Objects;
 /**
  * This class represents a seat in a cinema room. It contains information about a seat,
  * such as its row, column, price, and the associated cinema room.
+ *
  * @see CinemaRoom
  */
 @Getter
@@ -19,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "seats")
+@Table(name = "seat")
 @Order(2)
 public class Seat {
     /**

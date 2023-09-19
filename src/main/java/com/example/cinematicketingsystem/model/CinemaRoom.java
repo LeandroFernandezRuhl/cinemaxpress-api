@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.entity;
+package com.example.cinematicketingsystem.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,6 +14,7 @@ import java.util.Set;
  * This class represents a room in a cinema. It contains information about a cinema room,
  * such as its availability of 3D technology, surround sound, number of rows, number of columns,
  * base seat price, and associated showtimes and seats.
+ *
  * @see Showtime
  * @see Seat
  */
@@ -21,7 +22,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "cinema_rooms")
+@Table(name = "cinema_room")
 @Order(1)
 public class CinemaRoom {
     /**
@@ -64,13 +65,14 @@ public class CinemaRoom {
     /**
      * Constructs a new cinema room with the specified attributes.
      *
-     * @param has3d whether the room has 3D
-     * @param hasSurround whether the room has surround
-     * @param numberOfRows number of rows in the room
+     * @param has3d           whether the room has 3D
+     * @param hasSurround     whether the room has surround
+     * @param numberOfRows    number of rows in the room
      * @param numberOfColumns number of columns in the room
-     * @param baseSeatPrice base price for a seat in the room
+     * @param baseSeatPrice   base price for a seat in the room
      */
-    public CinemaRoom(Boolean has3d, Boolean hasSurround, Integer numberOfRows, Integer numberOfColumns, Double baseSeatPrice) {
+    public CinemaRoom(
+            Boolean has3d, Boolean hasSurround, Integer numberOfRows, Integer numberOfColumns, Double baseSeatPrice) {
         this.has3d = has3d;
         this.hasSurround = hasSurround;
         this.numberOfRows = numberOfRows;
@@ -97,7 +99,6 @@ public class CinemaRoom {
 
     /**
      * Checks if this cinema room is equal to another object.
-     * Two cinema rooms are considered equal if their IDs are equal.
      *
      * @param o the object to compare to
      * @return {@code true} if the rooms are equal, {@code false} otherwise.
@@ -107,16 +108,20 @@ public class CinemaRoom {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CinemaRoom that = (CinemaRoom) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(id, that.id) && Objects.equals(has3d,
+                that.has3d) && Objects.equals(hasSurround, that.hasSurround) && Objects.equals(
+                numberOfRows, that.numberOfRows) && Objects.equals(numberOfColumns,
+                that.numberOfColumns) && Objects.equals(baseSeatPrice, that.baseSeatPrice);
     }
 
     /**
      * Calculates the hash code of this cinema room.
+     *
      * @return the hash code value of this room
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, has3d, hasSurround, numberOfRows, numberOfColumns, baseSeatPrice);
     }
 
     /**

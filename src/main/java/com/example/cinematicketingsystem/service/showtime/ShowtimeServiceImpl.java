@@ -1,12 +1,12 @@
 package com.example.cinematicketingsystem.service.showtime;
 
 import com.example.cinematicketingsystem.dto.ShowtimeInfoDTO;
-import com.example.cinematicketingsystem.entity.CinemaRoom;
-import com.example.cinematicketingsystem.entity.Movie;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.ShowtimeOverlapException;
+import com.example.cinematicketingsystem.model.CinemaRoom;
+import com.example.cinematicketingsystem.model.Movie;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.Ticket;
 import com.example.cinematicketingsystem.repository.ShowtimeRepository;
 import com.example.cinematicketingsystem.service.cinemaroom.CinemaRoomService;
 import com.example.cinematicketingsystem.service.movie.MovieService;
@@ -46,19 +46,20 @@ public class ShowtimeServiceImpl implements ShowtimeService {
      * @param endTime   the end time of the showtime
      * @param movieId   the ID of the movie associated with the showtime
      * @param roomId    the ID of the room where the showtime takes place
+     * @return the saved showtime with the generated ID
      * @throws IllegalArgumentException if the provided end time is too early to accommodate the full movie duration
      * @throws IllegalStateException    if the provided start time is in the past
      * @throws ShowtimeOverlapException if the provided time range overlaps with existing showtimes
      * @throws EntityNotFoundException  if the associated cinema room or movie are not found
      */
     @Override
-    public void saveShowtime(LocalDateTime startTime, LocalDateTime endTime, Long movieId, Long roomId) {
+    public Showtime saveShowtime(LocalDateTime startTime, LocalDateTime endTime, Long movieId, Long roomId) {
         log.debug("Creating new showtime");
         Movie movie = movieService.findById(movieId);
         CinemaRoom room = cinemaRoomService.findById(roomId);
         validateShowtime(startTime, endTime, movie.getDurationInMinutes(), room.getId());
         Showtime newShowtime = new Showtime(startTime, endTime, room, movie);
-        showtimeRepository.save(newShowtime);
+        return showtimeRepository.save(newShowtime);
     }
 
     /**

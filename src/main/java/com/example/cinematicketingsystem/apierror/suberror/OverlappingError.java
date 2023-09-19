@@ -1,6 +1,6 @@
 package com.example.cinematicketingsystem.apierror.suberror;
 
-import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.model.Showtime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

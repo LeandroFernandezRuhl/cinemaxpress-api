@@ -1,9 +1,9 @@
 package com.example.cinematicketingsystem.service.showtimeSeat;
 
 import com.example.cinematicketingsystem.dto.SeatInfoDTO;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.ShowtimeSeat;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.ShowtimeSeat;
+import com.example.cinematicketingsystem.model.Ticket;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface ShowtimeSeatService {
      * @param showtimeId the ID of the showtime to find available seats for
      * @return a list of {@link SeatInfoDTO} objects representing the available seats
      */
-    public List<SeatInfoDTO> findAvailableSeats(Long showtimeId);
+    List<SeatInfoDTO> findAvailableSeats(Long showtimeId);
 
     /**
      * Purchases the seat with the specified ID.
@@ -30,7 +30,7 @@ public interface ShowtimeSeatService {
      * @param seatId the ID of the seat to purchase
      * @return the ShowtimeSeat object representing the purchased seat
      */
-    public ShowtimeSeat purchaseSeat(Long seatId);
+    ShowtimeSeat purchaseSeat(Long seatId);
 
     /**
      * Refunds the seat associated with the specified showtime and ticket.

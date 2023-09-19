@@ -1,6 +1,6 @@
 package com.example.cinematicketingsystem.repository;
 
-import com.example.cinematicketingsystem.entity.Seat;
+import com.example.cinematicketingsystem.model.Seat;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,11 @@
 package com.example.cinematicketingsystem.service.movie;
 
-import com.example.cinematicketingsystem.entity.*;
 import com.example.cinematicketingsystem.exception.EntityAlreadyExistsException;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
 import com.example.cinematicketingsystem.exception.MovieApiException;
-import com.example.cinematicketingsystem.movieapi.MovieJSONConverter;
+import com.example.cinematicketingsystem.model.Movie;
 import com.example.cinematicketingsystem.movieapi.MovieApiClient;
+import com.example.cinematicketingsystem.movieapi.MovieJSONConverter;
 import com.example.cinematicketingsystem.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

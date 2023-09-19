@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.entity;
+package com.example.cinematicketingsystem.model;
 
 import com.example.cinematicketingsystem.exception.MovieApiException;
 import jakarta.persistence.Column;
@@ -24,7 +24,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "movies")
+@Table(name = "movie")
 @Order(3)
 public class Movie {
     /**
@@ -62,20 +62,21 @@ public class Movie {
     /**
      * Constructs a new movie with the specified attributes.
      *
-     * @param id the unique identifier of the movie
-     * @param title the title of the movie
-     * @param overview the overview of the movie
+     * @param id         the unique identifier of the movie
+     * @param title      the title of the movie
+     * @param overview   the overview of the movie
      * @param posterPath the path of the movie poster
      */
     public Movie(@NotNull Long id, String title, String overview, String posterPath) {
         this.id = id;
         this.title = title;
         this.overview = overview;
-        this.posterPath = posterPath;
+        this.posterPath = "https://image.tmdb.org/t/p/original" + posterPath;
     }
 
     /**
      * Generates a {@link JSONObject} of this movie.
+     *
      * @return the {@link JSONObject} of this movie
      */
     public JSONObject toJSON() {
@@ -88,7 +89,8 @@ public class Movie {
             jsonObject.put("posterPath", posterPath);
             jsonObject.put("durationInMinutes", durationInMinutes);
         } catch (JSONException e) {
-            throw new MovieApiException("An error occurred while making the JSONObject of the movie: " + e.getMessage());
+            throw new MovieApiException(
+                    "An error occurred while making the JSONObject of the movie: " + e.getMessage());
         }
         return jsonObject;
     }

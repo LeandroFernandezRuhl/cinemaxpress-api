@@ -1,6 +1,6 @@
 package com.example.cinematicketingsystem.service.cinemaroom;
 
-import com.example.cinematicketingsystem.entity.CinemaRoom;
+import com.example.cinematicketingsystem.model.CinemaRoom;
 
 /**
  * Service interface for managing cinema room entities.
@@ -19,15 +19,16 @@ public interface CinemaRoomService {
     CinemaRoom findById(Long id);
 
     /**
-     * Saves a new cinema room with the specified details.
+     * Creates a new cinema room with the specified details.
      *
      * @param has3d       true if the cinema room has 3D capability, false otherwise
      * @param hasSurround true if the cinema room has surround sound, false otherwise
      * @param rows        the number of rows in the cinema room
      * @param columns     the number of columns in the cinema room
      * @param seatPrice   the base price for each seat in the cinema room
+     * @return the newly saved cinema room
      */
-    void saveRoom(Boolean has3d, Boolean hasSurround, Integer rows, Integer columns, Double seatPrice);
+    CinemaRoom createRoom(Boolean has3d, Boolean hasSurround, Integer rows, Integer columns, Double seatPrice);
 
     /**
      * Updates an existing cinema room with the specified details.

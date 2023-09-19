@@ -2,10 +2,10 @@ package com.example.cinematicketingsystem.controller;
 
 import com.example.cinematicketingsystem.dto.SeatInfoDTO;
 import com.example.cinematicketingsystem.dto.ShowtimeInfoDTO;
-import com.example.cinematicketingsystem.entity.Movie;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.ShowtimeSeat;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.model.Movie;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.ShowtimeSeat;
+import com.example.cinematicketingsystem.model.Ticket;
 import com.example.cinematicketingsystem.service.movie.MovieService;
 import com.example.cinematicketingsystem.service.showtime.ShowtimeService;
 import com.example.cinematicketingsystem.service.showtimeSeat.ShowtimeSeatService;
@@ -30,6 +30,7 @@ import java.util.UUID;
  * @see TicketService
  */
 @AllArgsConstructor
+//@CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
 @RequestMapping("/public")
 public class PublicController {

@@ -1,6 +1,6 @@
 package com.example.cinematicketingsystem.repository;
 
-import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.model.Showtime;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -57,7 +57,7 @@ public interface ShowtimeRepository extends CrudRepository<Showtime, Long> {
      * @param newEndTime   the end time of the new showtime
      * @return a list of showtimes that overlap with the specified time range
      */
-    @Query(value = "SELECT * FROM showtimes " +
+    @Query(value = "SELECT * FROM showtime " +
             "WHERE cinema_room_id = :roomId " +
             "AND (start_time, end_time) OVERLAPS (:newStartTime, :newEndTime)",
             nativeQuery = true)

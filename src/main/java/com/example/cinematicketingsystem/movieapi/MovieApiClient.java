@@ -17,7 +17,8 @@ import java.net.http.HttpResponse;
  */
 @Component
 public class MovieApiClient {
-    private static final String API_KEY = "";
+    private static final String API_KEY =
+            "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YWM0NjA1ZDczYzU4ZTIxMDA4NjkwZjNhOGU5Zjc3ZSIsInN1YiI6IjY0NzQ5NzJhYmUyZDQ5MDEzM2E1MWZkMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UlbStS8unXPhS5X5Knuzn3QE-zqxPpvYM13PD7f8fsM";
 
     /**
      * Searches movies based on the given query.

@@ -1,11 +1,11 @@
 package com.example.cinematicketingsystem.dto;
 
 
+import com.example.cinematicketingsystem.model.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.cinematicketingsystem.entity.Ticket;
 
 /**
  * Data Transfer Object (DTO) class representing information about ticket statistics.

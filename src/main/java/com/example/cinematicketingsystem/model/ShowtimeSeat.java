@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.entity;
+package com.example.cinematicketingsystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,7 @@ import java.util.Objects;
 /**
  * This class represents the availability of a seat for a specific showtime. It contains information
  * such as its associated seat, associated showtime and its availability status.
+ *
  * @see Showtime
  * @see Seat
  */
@@ -20,7 +21,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "available_seats")
+@Table(name = "showtime_seat")
 @Order(5)
 public class ShowtimeSeat {
     /**

@@ -1,6 +1,6 @@
 package com.example.cinematicketingsystem.service.movie;
 
-import com.example.cinematicketingsystem.entity.Movie;
+import com.example.cinematicketingsystem.model.Movie;
 
 import java.util.List;
 

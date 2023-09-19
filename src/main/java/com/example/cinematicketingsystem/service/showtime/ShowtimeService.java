@@ -1,8 +1,8 @@
 package com.example.cinematicketingsystem.service.showtime;
 
 import com.example.cinematicketingsystem.dto.ShowtimeInfoDTO;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.Ticket;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,8 +36,9 @@ public interface ShowtimeService {
      * @param endTime   the end time of the showtime
      * @param movieId   the ID of the movie associated with the showtime
      * @param roomId    the ID of the room where the showtime takes place
+     * @return the saved showtime with the generated ID
      */
-    void saveShowtime(LocalDateTime startTime, LocalDateTime endTime, Long movieId, Long roomId);
+    Showtime saveShowtime(LocalDateTime startTime, LocalDateTime endTime, Long movieId, Long roomId);
 
     /**
      * Retrieves a list of showtime information DTOs (Data Transfer Objects) based on the specified movie ID.

@@ -1,6 +1,6 @@
 package com.example.cinematicketingsystem.controller;
 
-import com.example.cinematicketingsystem.entity.Movie;
+import com.example.cinematicketingsystem.model.Movie;
 import com.example.cinematicketingsystem.service.movie.MovieService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -61,7 +61,6 @@ public class MovieController {
         movieService.saveMovie(movie);
         return ResponseEntity.ok("Movie successfully saved in the database");
     }
-
 
     /**
      * Changes the availability of a movie.

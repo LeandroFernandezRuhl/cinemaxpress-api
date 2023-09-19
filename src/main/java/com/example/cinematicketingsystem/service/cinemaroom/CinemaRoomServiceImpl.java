@@ -1,7 +1,7 @@
 package com.example.cinematicketingsystem.service.cinemaroom;
 
-import com.example.cinematicketingsystem.entity.CinemaRoom;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
+import com.example.cinematicketingsystem.model.CinemaRoom;
 import com.example.cinematicketingsystem.repository.CinemaRoomRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +29,13 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
      * @param rows        the number of rows in the cinema room
      * @param columns     the number of columns in the cinema room
      * @param seatPrice   the base price for each seat in the cinema room
+     * @return the newly saved cinema room
      */
     @Override
-    public void saveRoom(Boolean has3d, Boolean hasSurround, Integer rows, Integer columns, Double seatPrice) {
+    public CinemaRoom createRoom(Boolean has3d, Boolean hasSurround, Integer rows, Integer columns, Double seatPrice) {
         log.debug("Creating new room");
         CinemaRoom room = new CinemaRoom(has3d, hasSurround, rows, columns, seatPrice);
-        cinemaRoomRepository.save(room);
+        return cinemaRoomRepository.save(room);
     }
 
     /**

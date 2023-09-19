@@ -1,4 +1,4 @@
-package com.example.cinematicketingsystem.entity;
+package com.example.cinematicketingsystem.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,6 +14,7 @@ import java.util.Set;
 /**
  * This class represents a showtime for a movie in a cinema room.
  * It contains information about the start & end times, cinema room, seats, and associated movie of a showtime.
+ *
  * @see ShowtimeSeat
  * @see CinemaRoom
  * @see Movie
@@ -22,7 +23,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "showtimes")
+@Table(name = "showtime")
 @Order(4)
 public class Showtime {
     /**
@@ -60,10 +61,10 @@ public class Showtime {
     /**
      * Constructs a new showtime with the given start time, end time, cinema room, and movie.
      *
-     * @param startTime the start time of the showtime
-     * @param endTime the end time of the showtime
+     * @param startTime  the start time of the showtime
+     * @param endTime    the end time of the showtime
      * @param cinemaRoom the cinema room where the showtime takes place
-     * @param movie the movie associated with the showtime
+     * @param movie      the movie associated with the showtime
      */
     public Showtime(LocalDateTime startTime, LocalDateTime endTime, CinemaRoom cinemaRoom, Movie movie) {
         this.startTime = startTime;
@@ -85,6 +86,21 @@ public class Showtime {
             showtimeSeats.add(showtimeSeat);
         }
         setSeats(showtimeSeats);
+    }
+
+    /**
+     * Finds the seat with the given ID in this showtime.
+     *
+     * @param seatId the ID of the seat to find
+     * @return the seat with the given ID, or {@code null} if the seat is not found
+     */
+    public ShowtimeSeat findSeatById(Long seatId) {
+        for (ShowtimeSeat showtimeSeat : seats) {
+            if (showtimeSeat.getSeat().getId().equals(seatId)) {
+                return showtimeSeat;
+            }
+        }
+        return null; // Return null if the seat with the given ID is not found
     }
 
     /**

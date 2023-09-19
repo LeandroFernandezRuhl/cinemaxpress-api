@@ -1,11 +1,11 @@
 package com.example.cinematicketingsystem.dto;
 
+import com.example.cinematicketingsystem.model.Seat;
+import com.example.cinematicketingsystem.model.ShowtimeSeat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.cinematicketingsystem.entity.Seat;
-import com.example.cinematicketingsystem.entity.ShowtimeSeat;
 
 
 /**

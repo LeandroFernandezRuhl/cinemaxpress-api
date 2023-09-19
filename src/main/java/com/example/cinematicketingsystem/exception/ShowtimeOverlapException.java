@@ -1,7 +1,7 @@
 package com.example.cinematicketingsystem.exception;
 
 import com.example.cinematicketingsystem.apierror.suberror.OverlappingError;
-import com.example.cinematicketingsystem.entity.Showtime;
+import com.example.cinematicketingsystem.model.Showtime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class ShowtimeOverlapException extends RuntimeException {
      * Contains a list of {@link OverlappingError} objects, each representing a specific
      * overlapping showtime and providing details about the overlap.
      */
-    private List<OverlappingError> overlappingErrors;
+    private final List<OverlappingError> overlappingErrors;
 
     /**
      * Constructs a new {@code ShowtimeOverlapException} with the specified error message and overlapping showtimes.

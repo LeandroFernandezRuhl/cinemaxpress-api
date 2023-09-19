@@ -41,7 +41,7 @@ public class CinemaRoomController {
      */
     @PostMapping()
     public ResponseEntity<String> saveCinemaRoom(@RequestBody @Valid CreateRoomDTO request) {
-        cinemaRoomService.saveRoom(request.getHas3d(), request.getHasSurround(), request.getRows(),
+        cinemaRoomService.createRoom(request.getHas3d(), request.getHasSurround(), request.getRows(),
                 request.getColumns(), request.getPrice());
         return ResponseEntity.ok("Cinema room successfully created");
     }
@@ -49,7 +49,7 @@ public class CinemaRoomController {
     /**
      * Updates an existing cinema room based on the provided request data.
      *
-     * @param id the id of the room to update
+     * @param id      the id of the room to update
      * @param request the {@link UpdateRoomDTO} object containing the data for updating a cinema room
      * @return a {@link ResponseEntity} with a success message if the cinema room is updated successfully
      */

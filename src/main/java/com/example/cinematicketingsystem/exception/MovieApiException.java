@@ -1,7 +1,8 @@
 package com.example.cinematicketingsystem.exception;
 
-import java.io.IOException;
 import org.json.JSONException;
+
+import java.io.IOException;
 
 /**
  * Exception thrown when there is an error in the movie API integration.
@@ -13,7 +14,7 @@ public class MovieApiException extends RuntimeException {
     /**
      * True if the exception is caused by a movie not found, false otherwise.
      */
-    private Boolean causedByMovieNotFound;
+    private final Boolean causedByMovieNotFound;
 
     /**
      * Constructs a new {@code MovieApiException} with the specified underlying exception.

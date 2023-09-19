@@ -1,11 +1,11 @@
 package com.example.cinematicketingsystem.dto;
 
+import com.example.cinematicketingsystem.model.Showtime;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.cinematicketingsystem.entity.Showtime;
 
 import java.time.LocalDateTime;
 

@@ -1,9 +1,9 @@
 package com.example.cinematicketingsystem.service.ticket;
 
 import com.example.cinematicketingsystem.dto.TicketInfoDTO;
-import com.example.cinematicketingsystem.entity.Seat;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.Ticket;
+import com.example.cinematicketingsystem.model.Seat;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.Ticket;
 
 import java.time.LocalDate;
 import java.util.UUID;

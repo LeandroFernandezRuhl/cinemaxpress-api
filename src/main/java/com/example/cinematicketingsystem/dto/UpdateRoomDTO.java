@@ -1,12 +1,12 @@
 package com.example.cinematicketingsystem.dto;
 
+import com.example.cinematicketingsystem.model.CinemaRoom;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.cinematicketingsystem.entity.CinemaRoom;
 
 /**
  * Data Transfer Object (DTO) class representing the update information for a {@link CinemaRoom}.

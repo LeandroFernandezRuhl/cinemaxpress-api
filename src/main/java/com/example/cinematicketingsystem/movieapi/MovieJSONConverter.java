@@ -1,7 +1,7 @@
 package com.example.cinematicketingsystem.movieapi;
 
-import com.example.cinematicketingsystem.entity.Movie;
 import com.example.cinematicketingsystem.exception.MovieApiException;
+import com.example.cinematicketingsystem.model.Movie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +16,7 @@ import java.util.List;
  * The {@code MovieJSONConverter} class provides methods for converting JSON data to a list of movie objects and
  * converting a list of movie objects to JSON data. It is used to facilitate the conversion between JSON representations
  * and the movie object model.
+ *
  * @see JSONObject
  * @see JSONArray
  */

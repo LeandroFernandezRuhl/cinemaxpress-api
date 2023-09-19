@@ -1,11 +1,11 @@
 package com.example.cinematicketingsystem.service.ticket;
 
 import com.example.cinematicketingsystem.dto.TicketInfoDTO;
-import com.example.cinematicketingsystem.entity.Movie;
-import com.example.cinematicketingsystem.entity.Seat;
-import com.example.cinematicketingsystem.entity.Showtime;
-import com.example.cinematicketingsystem.entity.Ticket;
 import com.example.cinematicketingsystem.exception.EntityNotFoundException;
+import com.example.cinematicketingsystem.model.Movie;
+import com.example.cinematicketingsystem.model.Seat;
+import com.example.cinematicketingsystem.model.Showtime;
+import com.example.cinematicketingsystem.model.Ticket;
 import com.example.cinematicketingsystem.repository.TicketRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
