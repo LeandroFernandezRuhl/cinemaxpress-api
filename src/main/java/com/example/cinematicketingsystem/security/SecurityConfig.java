@@ -47,12 +47,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers("/auth/**", "/", "/register").permitAll()
-                                .requestMatchers("/private/**").hasRole("ADMIN")
-                                .requestMatchers("/public/**").hasRole("USER")
+                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/cinema-management/**").hasRole("ADMIN")
+                                .requestMatchers("/seat-booking/**").hasAnyRole("USER", "ADMIN")
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

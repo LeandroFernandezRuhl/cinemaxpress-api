@@ -7,6 +7,7 @@ import com.example.cinematicketingsystem.security.model.UserEntity;
 import com.example.cinematicketingsystem.security.repository.RoleRepository;
 import com.example.cinematicketingsystem.security.repository.UserRepository;
 import com.example.cinematicketingsystem.security.model.CustomUserDetails;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ import java.util.Collections;
  */
 @RequiredArgsConstructor
 @Slf4j
+@Hidden
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
