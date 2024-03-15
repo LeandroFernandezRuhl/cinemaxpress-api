@@ -1,0 +1,42 @@
+package com.leandroruhl.cinemaxpress.service.showtimeSeat;
+
+import com.leandroruhl.cinemaxpress.dto.SeatInfoDTO;
+import com.leandroruhl.cinemaxpress.model.Showtime;
+import com.leandroruhl.cinemaxpress.model.ShowtimeSeat;
+import com.leandroruhl.cinemaxpress.model.Ticket;
+
+import java.util.List;
+
+/**
+ * Service interface for managing showtime seats.
+ * <p>
+ * This interface defines methods for finding available seats, purchasing seats, and refunding seats associated with
+ * showtimes. Implementations of this interface handle the business logic associated with showtime seats.
+ *
+ * @see ShowtimeSeat
+ */
+public interface ShowtimeSeatService {
+    /**
+     * Finds available seats for the specified showtime.
+     *
+     * @param showtimeId the ID of the showtime to find available seats for
+     * @return a list of {@link SeatInfoDTO} objects representing the available seats
+     */
+    List<SeatInfoDTO> findAvailableSeats(Long showtimeId);
+
+    /**
+     * Purchases the seat with the specified ID.
+     *
+     * @param seatId the ID of the seat to purchase
+     * @return the ShowtimeSeat object representing the purchased seat
+     */
+    ShowtimeSeat purchaseSeat(Long seatId);
+
+    /**
+     * Refunds the seat associated with the specified showtime and ticket.
+     *
+     * @param showtime the showtime associated with the seat
+     * @param ticket   the ticket associated with the seat
+     */
+    void refundSeat(Showtime showtime, Ticket ticket);
+}
