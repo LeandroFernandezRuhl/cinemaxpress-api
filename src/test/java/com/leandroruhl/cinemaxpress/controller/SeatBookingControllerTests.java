@@ -1,5 +1,5 @@
 package com.leandroruhl.cinemaxpress.controller;
-/*
+
 import com.leandroruhl.cinemaxpress.model.Movie;
 import com.leandroruhl.cinemaxpress.model.Showtime;
 import com.leandroruhl.cinemaxpress.model.ShowtimeSeat;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class PublicControllerTests extends PostgreSQLContainerInitializer {
+public class SeatBookingControllerTests extends PostgreSQLContainerInitializer {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -101,4 +101,4 @@ public class PublicControllerTests extends PostgreSQLContainerInitializer {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Ticket successfully refunded"));
     }
-} */
+}
